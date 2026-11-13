@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сергей Скалозуб | ВКонтакте</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232688eb'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='28' text-anchor='middle' fill='white'%3EВК%3C/text%3E%3C/svg%3E" />
+
+  <!-- Open Graph превью для Telegram / ВК -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content="https://vk.xkeylomt.space/" />
+  <meta property="og:title" content="Сергей Сергеевич Скалозуб | ВКонтакте" />
+  <meta property="og:description" content="Полковник 45-го егерского полка. «Мне только бы досталось в генералы!» — интерактивная страница по комедии А. С. Грибоедова «Горе от ума»." />
+  <meta property="og:image" content="https://vk.xkeylomt.space/avatars/skalozub.jpg" />
+  <meta name="theme-color" content="#2688eb" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Верхняя шапка -->
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="#profile" class="vk-logo" id="logoHome">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Переключить тему">🌙</button>
+        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <div class="vk-avatar-mini" id="headerMiniAvatar">СС</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Основной контейнер -->
+  <div class="vk-layout">
+    <!-- Левое меню -->
+    <aside class="vk-sidebar">
+      <nav class="vk-nav">
+        <a href="#profile" class="vk-nav-item active" id="navProfile">🏠 Моя страница</a>
+        <a href="#wall" class="vk-nav-item" id="navNews">📰 Новости <span class="badge">1813</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер <span class="badge">4</span></a>
+        <a href="#friends-tab" class="vk-nav-item" id="navFriends">👥 Друзья <span class="badge" id="navFriendsBadge">6</span></a>
+      </nav>
+    </aside>
+
+    <!-- Контент -->
+    <main class="vk-main">
+      <!-- ==================== ВКЛАДКА 1: МОЯ СТРАНИЦА ==================== -->
+      <div id="profileView">
+        <!-- Шапка профиля -->
+        <section class="card profile-header-card" id="profile">
+          <div class="profile-cover">
+            <div class="profile-cover-caption">
+              «Пожар способствовал ей много к украшенью» — Москва, 1812
+            </div>
+          </div>
+
+          <div class="profile-header-body">
+            <!-- Аватарка -->
+            <div class="profile-avatar-wrap">
+              <svg id="defaultAvatarSvg" class="profile-avatar-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-label="Сергей Скалозуб">
+                <rect width="160" height="160" fill="#2c3e50" />
+                <path d="M20 160 C25 118, 135 118, 140 160 Z" fill="#1b4332" />
+                <path d="M68 118 L80 155 L92 118 Z" fill="#9b2226" />
+                <ellipse cx="42" cy="126" rx="16" ry="7" fill="#e9c46a" />
+                <ellipse cx="118" cy="126" rx="16" ry="7" fill="#e9c46a" />
+                <circle cx="80" cy="125" r="7" fill="#d62828" stroke="#f4d35e" stroke-width="2" />
+                <rect x="68" y="95" width="24" height="22" rx="8" fill="#f1c27d" />
+                <ellipse cx="80" cy="70" rx="28" ry="33" fill="#f1c27d" />
+                <path d="M52 64 C48 40, 72 22, 85 26 C100 18, 112 42, 108 64 C105 46, 56 46, 52 64 Z" fill="#3d2b1f" />
+                <path d="M52 64 L54 90 L61 84 L58 64 Z" fill="#3d2b1f" />
+                <path d="M108 64 L106 90 L99 84 L102 64 Z" fill="#3d2b1f" />
+                <circle cx="69" cy="68" r="3" fill="#1d1d1d" />
+                <circle cx="91" cy="68" r="3" fill="#1d1d1d" />
+                <path d="M61 60 L75 62" stroke="#3d2b1f" stroke-width="3" stroke-linecap="round" />
+                <path d="M85 62 L99 60" stroke="#3d2b1f" stroke-width="3" stroke-linecap="round" />
+                <path d="M64 84 Q80 78 96 84 Q80 88 64 84 Z" fill="#3d2b1f" />
+              </svg>
+
+              <img id="customAvatarImg" class="profile-avatar-img hidden" alt="Аватар Сергея Скалозуба" />
+
+              <label for="avatarUploadInput" class="avatar-upload-btn" title="Поставить свою аватарку">📷</label>
+              <input type="file" id="avatarUploadInput" accept="image/*" class="hidden" />
+              <button type="button" id="resetAvatarBtn" class="avatar-reset-btn hidden" title="Вернуть стандартную аву">✕</button>
+
+              <span class="online-dot" title="В сети с плаца"></span>
+            </div>
+
+            <div class="profile-info-top">
+              <div class="profile-name-row">
+                <h1>Сергей Сергеевич Скалозуб</h1>
+                <span class="verified-badge" title="Подтверждённый полковник 45-го егерского полка">★</span>
+              </div>
+
+              <!-- Кликабельный статус -->
+              <p class="profile-status" id="profileStatus" title="Нажмите, чтобы изменить статус">
+                Мне только бы досталось в генералы! 🎖️
+              </p>
+
+              <div class="status-editor hidden" id="statusEditor">
+                <select id="statusSelect">
+                  <option value="Мне только бы досталось в генералы! 🎖️">Мне только бы досталось в генералы! 🎖️</option>
+                  <option value="Учёностью меня не обморочишь.">Учёностью меня не обморочишь.</option>
+                  <option value="Жениться? Я ничуть не прочь.">Жениться? Я ничуть не прочь.</option>
+                  <option value="Пожар способствовал ей много к украшенью! 🔥">Пожар способствовал ей много к украшенью! 🔥</option>
+                </select>
+                <input type="text" id="statusCustomInput" placeholder="Или введите свой статус..." />
+                <div class="status-editor-btns">
+                  <button class="btn btn-primary btn-sm" id="saveStatusBtn">Сохранить</button>
+                  <button class="btn btn-secondary btn-sm" id="cancelStatusBtn">Отмена</button>
+                </div>
+              </div>
+
+              <div class="profile-meta-line">
+                <span>📍 Москва (и по полкам)</span>
+                <span>⚔️ 45-й егерский полк</span>
+                <button class="link-btn" id="toggleDetailsBtn">Подробнее ▾</button>
+              </div>
+            </div>
+
+            <div class="profile-actions">
+              <button class="btn btn-primary" id="openChatBtn">Написать</button>
+              <button class="btn btn-secondary" id="friendBtn">В друзьях ✓</button>
+            </div>
+          </div>
+
+          <!-- Подробная информация -->
+          <div class="profile-details hidden" id="profileDetails">
+            <div class="details-grid">
+              <div class="detail-row"><span>Семейное положение:</span> <strong>в активном поиске («Жениться? Я ничуть не прочь»)</strong></div>
+              <div class="detail-row"><span>Служба:</span> <strong>С 1809 года; 30-й и 45-й егерские полки, полковник</strong></div>
+              <div class="detail-row"><span>Награды:</span> <strong>Орден на шею за 3 августа 1813 года</strong></div>
+              <div class="detail-row"><span>Образование:</span> <strong>Школа Фридриха («раз, два!»)</strong></div>
+              <div class="detail-row"><span>Любимые книги:</span> <strong>«А книги сохранят так: для больших оказий»</strong></div>
+              <div class="detail-row"><span>Родственники:</span> <strong>Брат (в ссоре — «в деревне книги стал читать»)</strong></div>
+              <div class="detail-row"><span>О себе:</span> <strong>Прямизною стана, лицом и голосом герой. Учёностью меня не обморочишь.</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Сетка: Стена + Правая колонка -->
+        <div class="profile-grid">
+          <div class="wall-column" id="wall">
+            <!-- Блок фотографий (4 квадрата + лайтбокс) -->
+            <section class="card photos-card">
+              <div class="side-title-row">
+                <h2 class="side-title">Фотографии <span class="muted">4</span></h2>
+                <span class="hint">Нажмите для увеличения</span>
+              </div>
+              <div class="photos-strip" id="photosStrip">
+                <button class="photo-thumb" data-index="0" title="Москва после 1812 года">
+                  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="120" fill="#2b193d" />
+                    <circle cx="92" cy="28" r="14" fill="#f77f00" opacity="0.85" />
+                    <path d="M0 95 L20 65 L35 80 L55 50 L75 78 L95 60 L120 88 L120 120 L0 120 Z" fill="#d62828" opacity="0.7" />
+                    <rect x="18" y="75" width="18" height="45" fill="#141414" />
+                    <rect x="46" y="60" width="24" height="60" fill="#1d1d1d" />
+                    <rect x="82" y="72" width="22" height="48" fill="#141414" />
+                  </svg>
+                  <span class="photo-label">Москва, 1812</span>
+                </button>
+
+                <button class="photo-thumb" data-index="1" title="Плац 45-го егерского полка">
+                  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="120" fill="#1b4332" />
+                    <rect y="78" width="120" height="42" fill="#2d6a4f" />
+                    <circle cx="30" cy="58" r="8" fill="#f1c27d" />
+                    <rect x="22" y="67" width="16" height="24" rx="4" fill="#081c15" />
+                    <circle cx="60" cy="58" r="8" fill="#f1c27d" />
+                    <rect x="52" y="67" width="16" height="24" rx="4" fill="#081c15" />
+                    <circle cx="90" cy="58" r="8" fill="#f1c27d" />
+                    <rect x="82" y="67" width="16" height="24" rx="4" fill="#081c15" />
+                    <text x="60" y="28" text-anchor="middle" fill="#f4d35e" font-size="13" font-weight="bold" font-family="sans-serif">РАЗ, ДВА!</text>
+                  </svg>
+                  <span class="photo-label">На плацу</span>
+                </button>
+
+                <button class="photo-thumb" data-index="2" title="Бал у Фамусовых">
+                  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="120" fill="#3c096c" />
+                    <circle cx="60" cy="26" r="18" fill="#ffd166" opacity="0.25" />
+                    <circle cx="60" cy="24" r="7" fill="#ffd166" />
+                    <path d="M40 30 L80 30 L60 12 Z" fill="#f4d35e" />
+                    <rect x="0" y="92" width="120" height="28" fill="#5a189a" />
+                    <text x="60" y="72" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="sans-serif">МАЗУРКА</text>
+                  </svg>
+                  <span class="photo-label">Бал</span>
+                </button>
+
+                <button class="photo-thumb" data-index="3" title="Брат в деревне с книгой">
+                  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="120" fill="#495057" />
+                    <rect x="28" y="34" width="64" height="46" rx="4" fill="#fff3b0" />
+                    <line x1="60" y1="34" x2="60" y2="80" stroke="#9e2a2b" stroke-width="3" />
+                    <line x1="36" y1="46" x2="54" y2="46" stroke="#6c757d" stroke-width="2" />
+                    <line x1="36" y1="56" x2="54" y2="56" stroke="#6c757d" stroke-width="2" />
+                    <line x1="66" y1="46" x2="84" y2="46" stroke="#6c757d" stroke-width="2" />
+                    <line x1="66" y1="56" x2="84" y2="56" stroke="#6c757d" stroke-width="2" />
+                    <line x1="20" y1="22" x2="100" y2="94" stroke="#e63946" stroke-width="6" stroke-linecap="round" />
+                  </svg>
+                  <span class="photo-label">Брат (книги!)</span>
+                </button>
+              </div>
+            </section>
+
+            <!-- Новый пост -->
+            <div class="card new-post-card">
+              <textarea id="newPostInput" rows="2" placeholder="Что нового на фрунте, Сергей Сергеич?"></textarea>
+              <div class="new-post-footer">
+                <span class="hint">Сохраняется в браузере</span>
+                <button class="btn btn-primary btn-sm" id="publishPostBtn">Опубликовать</button>
+              </div>
+            </div>
+
+            <!-- Посты на стене -->
+            <div id="postsContainer">
+              <!-- Пост-опрос -->
+              <article class="card post-card" data-post-id="post-poll">
+                <div class="post-header">
+                  <div class="post-avatar av-skalozub">СС</div>
+                  <div>
+                    <div class="post-author">Сергей Сергеевич Скалозуб</div>
+                    <div class="post-date">закреплено • вчера</div>
+                  </div>
+                </div>
+                <div class="post-text">
+                  Всеобщая молва, что есть проект насчёт лицеев, школ, гимназий! Как реформируем образование в Москве? Голосуем:
+                </div>
+
+                <div class="poll-box" id="pollBox">
+                  <div class="poll-title">📊 Проект реформы образования</div>
+                  <button class="poll-option" data-option="0">
+                    <span class="poll-fill"></span>
+                    <span class="poll-label">Учить по-нашему: раз, два!</span>
+                    <span class="poll-percent"></span>
+                  </button>
+                  <button class="poll-option" data-option="1">
+                    <span class="poll-fill"></span>
+                    <span class="poll-label">Дать фельдфебеля в Вольтеры</span>
+                    <span class="poll-percent"></span>
+                  </button>
+                  <button class="poll-option" data-option="2">
+                    <span class="poll-fill"></span>
+                    <span class="poll-label">Забрать все книги бы да сжечь</span>
+                    <span class="poll-percent"></span>
+                  </button>
+                  <div class="poll-footer" id="pollTotal">Проголосовало: 48 чел.</div>
+                </div>
+
+                <div class="post-actions">
+                  <button class="action-btn like-btn liked" data-count="24">❤ <span class="count">24</span></button>
+                  <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+                </div>
+                <div class="comments-list">
+                  <div class="comment">
+                    <div class="comment-avatar av-famusov">ПФ</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Павел Фамусов</span>
+                      Голосую за третий вариант двумя руками!
+                      <div class="comment-date">вчера в 19:18</div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="comment-avatar av-repetilov">Р</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Репетилов</span>
+                      Скалозуб, душа моя! Поехали к князь-Григорию, там шампанское на убой!
+                      <div class="comment-date">вчера в 19:40</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="add-comment-row">
+                  <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+                  <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+                </div>
+              </article>
+
+              <!-- Пост 1 -->
+              <article class="card post-card" data-post-id="post-1">
+                <div class="post-header">
+                  <div class="post-avatar av-skalozub">СС</div>
+                  <div>
+                    <div class="post-author">Сергей Сергеевич Скалозуб</div>
+                    <div class="post-date">сегодня в 14:20</div>
+                  </div>
+                </div>
+                <div class="post-text">
+                  Приехал в Москву. Конечно, дистанции огромного размера, но как похорошела столица! Пожар способствовал ей много к украшенью! 👍🔥
+                </div>
+                <div class="post-actions">
+                  <button class="action-btn like-btn" data-count="18">❤ <span class="count">18</span></button>
+                  <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+                </div>
+                <div class="comments-list">
+                  <div class="comment">
+                    <div class="comment-avatar av-famusov">ПФ</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Павел Фамусов</span>
+                      Браво, Сергей Сергеич! Светлый ум! Заезжайте к нам на ужин, о Софьюшке переговорим.
+                      <div class="comment-date">час назад</div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="comment-avatar av-khlestova">АХ</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Анфиса Хлёстова</span>
+                      Тьфу! Трёх сажень удалец... Дался он тебе, Павел!
+                      <div class="comment-date">40 минут назад</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="add-comment-row">
+                  <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+                  <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+                </div>
+              </article>
+
+              <!-- Пост 3 -->
+              <article class="card post-card" data-post-id="post-3">
+                <div class="post-header">
+                  <div class="post-avatar av-skalozub">СС</div>
+                  <div>
+                    <div class="post-author">Сергей Сергеевич Скалозуб</div>
+                    <div class="post-date">3 авг в 11:30</div>
+                  </div>
+                </div>
+                <div class="post-text">
+                  Княгиня Ласова на днях с лошади расшиблась в пух: жокей не поддержал — считал он, видно, мух. Теперь ребра недостаёт, так для поддержки ищет мужа 😂 А вообще... Жениться? Я ничуть не прочь.
+                </div>
+                <div class="post-actions">
+                  <button class="action-btn like-btn" data-count="12">❤ <span class="count">12</span></button>
+                  <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+                </div>
+                <div class="comments-list">
+                  <div class="comment">
+                    <div class="comment-avatar av-liza">Л</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Лиза</span>
+                      И золотой мешок, и метит в генералы! 😍
+                      <div class="comment-date">3 авг в 12:02</div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="comment-avatar av-sofia">СФ</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Софья Фамусова</span>
+                      Куда как мил! И весело мне страх выслушивать о фрунте и рядах... Не моего романа.
+                      <div class="comment-date">3 авг в 12:15</div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="comment-avatar av-chatsky">АЧ</div>
+                    <div class="comment-body">
+                      <span class="comment-author">Александр Чацкий</span>
+                      Созвездие маневров и мазурки!
+                      <div class="comment-date">3 авг в 12:30</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="add-comment-row">
+                  <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+                  <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Правая узкая колонка -->
+          <aside class="side-column">
+            <!-- Кликабельные друзья -->
+            <section class="card side-card">
+              <div class="side-title-row">
+                <h2 class="side-title">Друзья <span class="muted">6</span></h2>
+                <button class="link-btn" id="openFriendsFromSide">Все ▸</button>
+              </div>
+              <div class="friends-grid">
+                <a href="friends/famusov.html" class="friend-item">
+                  <div class="friend-av av-famusov">ПФ</div>
+                  <span>Фамусов</span>
+                </a>
+                <a href="friends/sofia.html" class="friend-item">
+                  <div class="friend-av av-sofia">СФ</div>
+                  <span>Софья</span>
+                </a>
+                <a href="friends/liza.html" class="friend-item">
+                  <div class="friend-av av-liza">Л</div>
+                  <span>Лиза</span>
+                </a>
+                <a href="friends/repetilov.html" class="friend-item">
+                  <div class="friend-av av-repetilov">Р</div>
+                  <span>Репетилов</span>
+                </a>
+                <a href="friends/khlestova.html" class="friend-item">
+                  <div class="friend-av av-khlestova">АХ</div>
+                  <span>Хлёстова</span>
+                </a>
+                <a href="friends/chatsky.html" class="friend-item">
+                  <div class="friend-av av-chatsky">АЧ</div>
+                  <span>Чацкий</span>
+                </a>
+              </div>
+            </section>
+
+            <!-- Подарки -->
+            <section class="card side-card">
+              <h2 class="side-title">Подарки <span class="muted">3</span></h2>
+              <div class="gifts-grid">
+                <div class="gift-item" title="Орден на шею за 3 августа 1813 года">
+                  <span class="gift-emoji">🎖️</span>
+                  <span class="gift-caption">За 3 августа</span>
+                </div>
+                <div class="gift-item" title="Приглашение на званый ужин от Фамусова">
+                  <span class="gift-emoji">🕯️</span>
+                  <span class="gift-caption">От Фамусова</span>
+                </div>
+                <div class="gift-item gift-rejected" title="Томик Вольтера от Чацкого — отклонён полковником">
+                  <span class="gift-emoji">📕</span>
+                  <span class="gift-caption">Отклонён</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Подписки -->
+            <section class="card side-card">
+              <h2 class="side-title">Подписки <span class="muted">4</span></h2>
+              <ul class="groups-list">
+                <li>
+                  <div class="group-icon">⚔️</div>
+                  <div>
+                    <div class="group-name">Подслушано в армии</div>
+                    <div class="group-sub">Фрунт, ряды, учения</div>
+                  </div>
+                </li>
+                <li>
+                  <div class="group-icon">💍</div>
+                  <div>
+                    <div class="group-name">Завидные женихи Москвы</div>
+                    <div class="group-sub">И золотой мешок</div>
+                  </div>
+                </li>
+                <li>
+                  <div class="group-icon">🧥</div>
+                  <div>
+                    <div class="group-name">Мундиры и эполеты 1820</div>
+                    <div class="group-sub">Отличье в петличках</div>
+                  </div>
+                </li>
+                <li>
+                  <div class="group-icon">🥁</div>
+                  <div>
+                    <div class="group-name">Фельдфебель в Вольтеры</div>
+                    <div class="group-sub">В три шеренги построим</div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Аудиозаписи (со звуком!) -->
+            <section class="card side-card">
+              <div class="side-title-row">
+                <h2 class="side-title">Аудиозаписи <span class="muted">3</span></h2>
+                <span class="hint">🔊 звук</span>
+              </div>
+              <div class="audio-list">
+                <div class="audio-item" data-sound="march">
+                  <button class="play-btn" aria-label="Воспроизвести">▶</button>
+                  <div class="audio-info">
+                    <div class="audio-title">Марш 45-го егерского полка</div>
+                    <div class="audio-artist">Барабаны «Раз, два!»</div>
+                    <div class="audio-bar"><div class="audio-progress"></div></div>
+                  </div>
+                  <span class="audio-time">3:05</span>
+                </div>
+                <div class="audio-item" data-sound="mazurka">
+                  <button class="play-btn" aria-label="Воспроизвести">▶</button>
+                  <div class="audio-info">
+                    <div class="audio-title">Мазурка на балу у Фамусовых</div>
+                    <div class="audio-artist">Московский бал</div>
+                    <div class="audio-bar"><div class="audio-progress"></div></div>
+                  </div>
+                  <span class="audio-time">2:20</span>
+                </div>
+                <div class="audio-item" data-sound="steps">
+                  <button class="play-btn" aria-label="Воспроизвести">▶</button>
+                  <div class="audio-info">
+                    <div class="audio-title">Звуки шагистики на плацу</div>
+                    <div class="audio-artist">Школа Фридриха</div>
+                    <div class="audio-bar"><div class="audio-progress"></div></div>
+                  </div>
+                  <span class="audio-time">10:00</span>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+
+      <!-- ==================== ВКЛАДКА 2: ДРУЗЬЯ ==================== -->
+      <section id="friendsView" class="hidden">
+        <div class="card friends-page-header">
+          <div class="friends-tabs-row">
+            <div class="friends-tabs">
+              <button class="friends-tab-btn active" data-filter="all">Все друзья <span class="tab-count" id="countAll">5</span></button>
+              <button class="friends-tab-btn" data-filter="online">В сети <span class="tab-count" id="countOnline">4</span></button>
+              <button class="friends-tab-btn" data-filter="blacklist">Чёрный список <span class="tab-count" id="countBlacklist">1</span></button>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="backToProfileBtn">← На страницу</button>
+          </div>
+          <div class="friends-filter-bar">
+            <input type="text" id="friendsFilterInput" placeholder="Найти по имени или цитате..." />
+          </div>
+        </div>
+
+        <div class="card friends-page-list" id="friendsPageList">
+          <div class="friend-page-card" data-friend-id="famusov" data-online="true">
+            <a href="friends/famusov.html" class="friend-page-av av-famusov">ПФ<span class="mini-online-dot"></span></a>
+            <div class="friend-page-info">
+              <a href="friends/famusov.html" class="friend-page-name">Павел Афанасьевич Фамусов <span class="cs-badge hidden">В ЧС</span></a>
+              <div class="friend-page-meta">Управляющий в казённом месте • Москва</div>
+              <div class="friend-page-status">«Известный человек, солидный! Не по летам и чин завидный»</div>
+            </div>
+            <div class="friend-page-actions">
+              <a href="friends/famusov.html" class="btn btn-secondary btn-sm">Открыть</a>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+            </div>
+          </div>
+
+          <div class="friend-page-card" data-friend-id="sofia" data-online="true">
+            <a href="friends/sofia.html" class="friend-page-av av-sofia">СФ<span class="mini-online-dot"></span></a>
+            <div class="friend-page-info">
+              <a href="friends/sofia.html" class="friend-page-name">Софья Павловна Фамусова <span class="cs-badge hidden">В ЧС</span></a>
+              <div class="friend-page-meta">Потенциальная невеста • Дом Фамусовых</div>
+              <div class="friend-page-status">«Куда как мил! И весело мне страх выслушивать о фрунте и рядах...»</div>
+            </div>
+            <div class="friend-page-actions">
+              <a href="friends/sofia.html" class="btn btn-secondary btn-sm">Открыть</a>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+            </div>
+          </div>
+
+          <div class="friend-page-card" data-friend-id="liza" data-online="true">
+            <a href="friends/liza.html" class="friend-page-av av-liza">Л<span class="mini-online-dot"></span></a>
+            <div class="friend-page-info">
+              <a href="friends/liza.html" class="friend-page-name">Лизанька <span class="cs-badge hidden">В ЧС</span></a>
+              <div class="friend-page-meta">Служанка в доме Фамусовых • Москва</div>
+              <div class="friend-page-status">«И золотой мешок, и метит в генералы!»</div>
+            </div>
+            <div class="friend-page-actions">
+              <a href="friends/liza.html" class="btn btn-secondary btn-sm">Открыть</a>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+            </div>
+          </div>
+
+          <div class="friend-page-card" data-friend-id="repetilov" data-online="false">
+            <a href="friends/repetilov.html" class="friend-page-av av-repetilov">Р</a>
+            <div class="friend-page-info">
+              <a href="friends/repetilov.html" class="friend-page-name">Репетилов <span class="cs-badge hidden">В ЧС</span></a>
+              <div class="friend-page-meta">Был в сети 2 часа назад • Английский клуб</div>
+              <div class="friend-page-status">«Шумим, братец, шумим! Поехали к князь-Григорию!»</div>
+            </div>
+            <div class="friend-page-actions">
+              <a href="friends/repetilov.html" class="btn btn-secondary btn-sm">Открыть</a>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+            </div>
+          </div>
+
+          <div class="friend-page-card" data-friend-id="khlestova" data-online="true">
+            <a href="friends/khlestova.html" class="friend-page-av av-khlestova">АХ<span class="mini-online-dot"></span></a>
+            <div class="friend-page-info">
+              <a href="friends/khlestova.html" class="friend-page-name">Анфиса Ниловна Хлёстова <span class="cs-badge hidden">В ЧС</span></a>
+              <div class="friend-page-meta">Свояченица Фамусова • Москва, Покровка</div>
+              <div class="friend-page-status">«Тьфу! Трёх сажень удалец... Дался он тебе, Павел!»</div>
+            </div>
+            <div class="friend-page-actions">
+              <a href="friends/khlestova.html" class="btn btn-secondary btn-sm">Открыть</a>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+            </div>
+          </div>
+
+          <div class="friend-page-card hidden" data-friend-id="chatsky" data-online="false">
+            <a href="friends/chatsky.html" class="friend-page-av av-chatsky">АЧ</a>
+            <div class="friend-page-info">
+              <a href="friends/chatsky.html" class="friend-page-name">Александр Андреевич Чацкий <span class="cs-badge">В ЧС</span></a>
+              <div class="friend-page-meta">Учёность, вольнодумство • Москва → в карете</div>
+              <div class="friend-page-status">«Созвездие маневров и мазурки!»</div>
+            </div>
+            <div class="friend-page-actions">
+              <a href="friends/chatsky.html" class="btn btn-secondary btn-sm">Открыть</a>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">Убрать из ЧС</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Модальное окно Мессенджера (список диалогов + Gemini AI) -->
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-card messenger-modal">
+      <div class="modal-header">
+        <div class="messenger-header-left">
+          <strong>💬 Мессенджер</strong>
+          <span class="gemini-badge" id="geminiStatusBadge">Локальный бот</span>
+        </div>
+        <div class="messenger-header-actions">
+          <button class="btn btn-secondary btn-sm" id="geminiSettingsBtn" title="Подключить Gemini AI">⚙️ ИИ</button>
+          <button class="close-modal" id="closeChatBtn">✕</button>
+        </div>
+      </div>
+
+      <!-- Панель настройки Gemini ключа (хранится только в браузере!) -->
+      <div class="gemini-panel hidden" id="geminiSettingsPanel">
+        <div class="gemini-panel-title">Подключение Gemini (gemini-3.8-flash)</div>
+        <p class="hint">
+          Ключ сохраняется только в вашем браузере (в <code>localStorage</code>) и не попадает в код на GitHub.
+        </p>
+        <div class="gemini-input-row">
+          <input type="password" id="geminiKeyInput" placeholder="Вставьте Gemini API Key (AIza...)" />
+          <button class="btn btn-primary btn-sm" id="saveGeminiKeyBtn">Сохранить</button>
+          <button class="btn btn-secondary btn-sm" id="clearGeminiKeyBtn">Сбросить</button>
+        </div>
+      </div>
+
+      <div class="messenger-body">
+        <!-- Левый список диалогов -->
+        <div class="dialog-list" id="dialogList">
+          <button class="dialog-item active" data-peer="skalozub">
+            <div class="dialog-av av-skalozub">СС</div>
+            <div class="dialog-meta">
+              <div class="dialog-name">Сергей Скалозуб</div>
+              <div class="dialog-preview">Раз, два! Вот и вся наука.</div>
+            </div>
+          </button>
+          <button class="dialog-item" data-peer="famusov">
+            <div class="dialog-av av-famusov">ПФ</div>
+            <div class="dialog-meta">
+              <div class="dialog-name">Павел Фамусов</div>
+              <div class="dialog-preview">Заезжайте в четверг на обед!</div>
+            </div>
+          </button>
+          <button class="dialog-item" data-peer="sofia">
+            <div class="dialog-av av-sofia">СФ</div>
+            <div class="dialog-meta">
+              <div class="dialog-name">Софья Фамусова</div>
+              <div class="dialog-preview">Только не про учения...</div>
+            </div>
+          </button>
+          <button class="dialog-item" data-peer="repetilov">
+            <div class="dialog-av av-repetilov">Р</div>
+            <div class="dialog-meta">
+              <div class="dialog-name">Репетилов</div>
+              <div class="dialog-preview">Шумим, братец, поехали!</div>
+            </div>
+          </button>
+          <button class="dialog-item" data-peer="chatsky">
+            <div class="dialog-av av-chatsky">АЧ</div>
+            <div class="dialog-meta">
+              <div class="dialog-name">Александр Чацкий</div>
+              <div class="dialog-preview" id="chatskyDialogPreview">🚫 В чёрном списке</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Правая часть: текущий чат -->
+        <div class="chat-pane">
+          <div class="chat-peer-bar">
+            <strong id="chatPeerName">Сергей Скалозуб</strong>
+            <span class="hint" id="chatPeerSub">Полковник 45-го егерского</span>
+          </div>
+
+          <div class="chat-messages" id="chatMessages"></div>
+
+          <div class="chat-blocked-notice hidden" id="chatBlockedNotice">
+            🚫 Вы добавили этого пользователя в чёрный список. Уберите его из ЧС во вкладке «Друзья», чтобы написать.
+          </div>
+
+          <div class="chat-input-row" id="chatInputRow">
+            <input type="text" id="chatInput" placeholder="Напишите сообщение..." />
+            <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Лайтбокс для фотографий -->
+  <div class="modal-overlay hidden" id="photoLightbox">
+    <div class="lightbox-card">
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <div class="lightbox-stage">
+        <button class="lightbox-nav" id="lightboxPrev">‹</button>
+        <div class="lightbox-img-wrap" id="lightboxImgWrap"></div>
+        <button class="lightbox-nav" id="lightboxNext">›</button>
+      </div>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <footer class="vk-footer">
+    Проект по комедии А. С. Грибоедова «Горе от ума». Авторы: Исаков Филипп, Баев Александр. <span>Сайт создан при поддержки MT Studio</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

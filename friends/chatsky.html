@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Александр Андреевич Чацкий | ВКонтакте</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body data-replies='["Служить бы рад, прислуживаться тошно!","А судьи кто?!","Созвездие маневров и мазурки!","Вон из Москвы! Сюда я больше не ездок. Карету мне, карету!"]'>
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="../index.html" class="vk-logo">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <div class="vk-avatar-mini">СС</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="vk-layout">
+    <aside class="vk-sidebar">
+      <nav class="vk-nav">
+        <a href="../index.html" class="vk-nav-item">🏠 Моя страница</a>
+        <a href="../index.html#wall" class="vk-nav-item">📰 Новости <span class="badge">1813</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер</a>
+        <a href="../index.html#friends-tab" class="vk-nav-item active">👥 Друзья <span class="badge">6</span></a>
+      </nav>
+    </aside>
+
+    <main class="vk-main view-animate">
+      <div class="mini-back-bar">
+        <a href="../index.html#friends-tab" class="btn btn-secondary btn-sm">← К списку друзей</a>
+        <a href="../index.html" class="link-btn">На страницу Скалозуба</a>
+      </div>
+
+      <div class="blacklist-banner">
+        🚫 Вы добавили Александра Чацкого в чёрный список за вольнодумство, лишнюю учёность и критику полковых порядков.
+      </div>
+
+      <section class="card profile-header-card">
+        <div class="profile-cover" style="background: linear-gradient(135deg, #343a40 0%, #495057 100%);">
+          <div class="profile-cover-caption">«И дым Отечества нам сладок и приятен!»</div>
+        </div>
+        <div class="profile-header-body">
+          <div class="profile-avatar-wrap">
+            <div class="mini-avatar-circle av-chatsky">АЧ</div>
+          </div>
+          <div class="profile-info-top">
+            <div class="profile-name-row">
+              <h1>Александр Андреевич Чацкий</h1>
+            </div>
+            <p class="profile-status">Служить бы рад, прислуживаться тошно.</p>
+            <div class="profile-meta-line">
+              <span>📍 В разъездах (Москва → прочь в карете)</span>
+              <button class="link-btn" id="toggleDetailsBtn">Подробнее ▾</button>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="openChatBtn">Написать</button>
+          </div>
+        </div>
+        <div class="profile-details hidden" id="profileDetails">
+          <div class="details-grid">
+            <div class="detail-row"><span>Главный вопрос:</span> <strong>«А судьи кто?»</strong></div>
+            <div class="detail-row"><span>Путешествия:</span> <strong>3 года странствий вне Москвы</strong></div>
+            <div class="detail-row"><span>Отношение к Скалозубу:</span> <strong>«Хрипун, удавленник, фагот, созвездие маневров и мазурки!»</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <div class="wall-column" id="postsContainer">
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-chatsky">АЧ</div>
+              <div>
+                <div class="post-author">Александр Андреевич Чацкий</div>
+                <div class="post-date">сегодня в 23:40</div>
+              </div>
+            </div>
+            <div class="post-text">
+              Вон из Москвы! Сюда я больше не ездок. Бегу, не оглянусь, пойду искать по свету, где оскорблённому есть чувству уголок!.. Карету мне, карету!
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="42">❤ <span class="count">42</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list"></div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-chatsky">АЧ</div>
+              <div>
+                <div class="post-author">Александр Андреевич Чацкий</div>
+                <div class="post-date">вчера в 15:10</div>
+              </div>
+            </div>
+            <div class="post-text">
+              Свежо предание, а верится с трудом: в Москве всё так же судят по мундирам и чинам, а свободное слово объявляют сумасшествием.
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="31">❤ <span class="count">31</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list"></div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <section class="card side-card">
+            <h2 class="side-title">Статус у Скалозуба</h2>
+            <p class="hint">Заблокирован в ЧС после спора об учёности и офицерских мундирах.</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Сообщения: Александр Чацкий</strong>
+        <button class="close-modal" id="closeChatBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg incoming">Ну, говорите, полковник. Опять про «раз, два»?</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Написать Чацкому..." />
+        <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
+      </div>
+    </div>
+  </div>
+  <script src="profile.js"></script>
+</body>
+</html>

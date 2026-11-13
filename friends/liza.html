@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Лизанька | ВКонтакте</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body data-replies='["Минуй нас пуще всех печалей и барский гнев, и барская любовь!","Ой, некогда мне, барин вот-вот позовёт!","И золотой мешок, и метит в генералы — а барышне всё равно не угодил.","Тсс! Я часы перевела, чтобы вы не заметили!"]'>
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="../index.html" class="vk-logo">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <div class="vk-avatar-mini">СС</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="vk-layout">
+    <aside class="vk-sidebar">
+      <nav class="vk-nav">
+        <a href="../index.html" class="vk-nav-item">🏠 Моя страница</a>
+        <a href="../index.html#wall" class="vk-nav-item">📰 Новости <span class="badge">1813</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер</a>
+        <a href="../index.html#friends-tab" class="vk-nav-item active">👥 Друзья <span class="badge">6</span></a>
+      </nav>
+    </aside>
+
+    <main class="vk-main view-animate">
+      <div class="mini-back-bar">
+        <a href="../index.html#friends-tab" class="btn btn-secondary btn-sm">← К списку друзей</a>
+        <a href="../index.html" class="link-btn">На страницу Скалозуба</a>
+      </div>
+
+      <section class="card profile-header-card">
+        <div class="profile-cover" style="background: linear-gradient(135deg, #b5179e 0%, #f72585 100%);">
+          <div class="profile-cover-caption">Главное — успеть перевести часы</div>
+        </div>
+        <div class="profile-header-body">
+          <div class="profile-avatar-wrap">
+            <div class="mini-avatar-circle av-liza">Л</div>
+            <span class="online-dot"></span>
+          </div>
+          <div class="profile-info-top">
+            <div class="profile-name-row">
+              <h1>Лизанька</h1>
+            </div>
+            <p class="profile-status">Минуй нас пуще всех печалей и барский гнев, и барская любовь!</p>
+            <div class="profile-meta-line">
+              <span>📍 Москва, дом Фамусовых</span>
+              <span>🕰️ Хранительница часов</span>
+              <button class="link-btn" id="toggleDetailsBtn">Подробнее ▾</button>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="openChatBtn">Написать</button>
+          </div>
+        </div>
+        <div class="profile-details hidden" id="profileDetails">
+          <div class="details-grid">
+            <div class="detail-row"><span>Должность:</span> <strong>Горничная, доверенное лицо Софьи</strong></div>
+            <div class="detail-row"><span>Увлечения:</span> <strong>Разгадывать сны, прикрывать барышню, общаться с Петрушкой</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <div class="wall-column" id="postsContainer">
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-liza">Л</div>
+              <div>
+                <div class="post-author">Лизанька</div>
+                <div class="post-date">сегодня в 08:05</div>
+              </div>
+            </div>
+            <div class="post-text">
+              Светает! Опять всю ночь не спала — то часы переводи, то у двери карауль. А вот барин всё полковника Скалозуба нахваливает: чем не жених? И золотой мешок, и метит в генералы!
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="19">❤ <span class="count">19</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list"></div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <section class="card side-card">
+            <h2 class="side-title">Девиз</h2>
+            <p class="hint">«Не дай Бог влюбляться в господском доме — одна суета!»</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Сообщения: Лизанька</strong>
+        <button class="close-modal" id="closeChatBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg incoming">Слушаю-с! Только потише, а то барин услышит.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Написать Лизе..." />
+        <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
+      </div>
+    </div>
+  </div>
+  <script src="profile.js"></script>
+</body>
+</html>

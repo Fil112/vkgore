@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Анфиса Ниловна Хлёстова | ВКонтакте</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body data-replies='["Тьфу! Трёх сажень удалец, и что Павел в нём нашёл?","В шестьдесят пять лет меня учить вздумали!","Я с Покровки тащилась сюда по этакой погоде!","Подайте моську да карету мне заказывайте!"]'>
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="../index.html" class="vk-logo">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <div class="vk-avatar-mini">СС</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="vk-layout">
+    <aside class="vk-sidebar">
+      <nav class="vk-nav">
+        <a href="../index.html" class="vk-nav-item">🏠 Моя страница</a>
+        <a href="../index.html#wall" class="vk-nav-item">📰 Новости <span class="badge">1813</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер</a>
+        <a href="../index.html#friends-tab" class="vk-nav-item active">👥 Друзья <span class="badge">6</span></a>
+      </nav>
+    </aside>
+
+    <main class="vk-main view-animate">
+      <div class="mini-back-bar">
+        <a href="../index.html#friends-tab" class="btn btn-secondary btn-sm">← К списку друзей</a>
+        <a href="../index.html" class="link-btn">На страницу Скалозуба</a>
+      </div>
+
+      <section class="card profile-header-card">
+        <div class="profile-cover" style="background: linear-gradient(135deg, #6a040f 0%, #9b2226 100%);">
+          <div class="profile-cover-caption">Москва, Покровка — строгие правила</div>
+        </div>
+        <div class="profile-header-body">
+          <div class="profile-avatar-wrap">
+            <div class="mini-avatar-circle av-khlestova">АХ</div>
+            <span class="online-dot"></span>
+          </div>
+          <div class="profile-info-top">
+            <div class="profile-name-row">
+              <h1>Анфиса Ниловна Хлёстова</h1>
+            </div>
+            <p class="profile-status">В шестьдесят пять лет поучать меня вздумал! 🐕</p>
+            <div class="profile-meta-line">
+              <span>📍 Москва, Покровка</span>
+              <span>👑 Свояченица Фамусова</span>
+              <button class="link-btn" id="toggleDetailsBtn">Подробнее ▾</button>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="openChatBtn">Написать</button>
+          </div>
+        </div>
+        <div class="profile-details hidden" id="profileDetails">
+          <div class="details-grid">
+            <div class="detail-row"><span>Возраст:</span> <strong>65 лет</strong></div>
+            <div class="detail-row"><span>Спутники:</span> <strong>Собачка моська и арапка-девочка</strong></div>
+            <div class="detail-row"><span>Мнение о полковнике:</span> <strong>«Ах, батюшка, трёх сажень удалец...»</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <div class="wall-column" id="postsContainer">
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-khlestova">АХ</div>
+              <div>
+                <div class="post-author">Анфиса Ниловна Хлёстова</div>
+                <div class="post-date">сегодня в 13:00</div>
+              </div>
+            </div>
+            <div class="post-text">
+              Была у Фамусовых. Народу тьма, шум, гам! Один Чацкий чего стоит — совсем ума решился, ещё и Загорецкого ругает. Зато Молчалин тихий да вежливый, моську мою погладил.
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="11">❤ <span class="count">11</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list"></div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <section class="card side-card">
+            <h2 class="side-title">Характер</h2>
+            <p class="hint">Прямолинейная, строгая, шуток над собой не терпит.</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Сообщения: Анфиса Хлёстова</strong>
+        <button class="close-modal" id="closeChatBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg incoming">Ну что ещё надобно? Говори скорее!</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Написать Хлёстовой..." />
+        <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
+      </div>
+    </div>
+  </div>
+  <script src="profile.js"></script>
+</body>
+</html>

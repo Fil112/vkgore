@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Павел Афанасьевич Фамусов | ВКонтакте</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body data-replies='["Подписано, так с плеч долой!","Ах! Боже мой! Что станет говорить княгиня Марья Алексевна!","Уж коли зло пресечь: забрать все книги бы да сжечь!","Заезжайте к нам в четверг на обед!"]'>
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="../index.html" class="vk-logo">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <div class="vk-avatar-mini">СС</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="vk-layout">
+    <aside class="vk-sidebar">
+      <nav class="vk-nav">
+        <a href="../index.html" class="vk-nav-item">🏠 Моя страница</a>
+        <a href="../index.html#wall" class="vk-nav-item">📰 Новости <span class="badge">1813</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер</a>
+        <a href="../index.html#friends-tab" class="vk-nav-item active">👥 Друзья <span class="badge">6</span></a>
+      </nav>
+    </aside>
+
+    <main class="vk-main view-animate">
+      <div class="mini-back-bar">
+        <a href="../index.html#friends-tab" class="btn btn-secondary btn-sm">← К списку друзей</a>
+        <a href="../index.html" class="link-btn">На страницу Скалозуба</a>
+      </div>
+
+      <section class="card profile-header-card">
+        <div class="profile-cover" style="background: linear-gradient(135deg, #3c096c 0%, #5a189a 100%);">
+          <div class="profile-cover-caption">Москва — дом на Тверской</div>
+        </div>
+        <div class="profile-header-body">
+          <div class="profile-avatar-wrap">
+            <div class="mini-avatar-circle av-famusov">ПФ</div>
+            <span class="online-dot"></span>
+          </div>
+          <div class="profile-info-top">
+            <div class="profile-name-row">
+              <h1>Павел Афанасьевич Фамусов</h1>
+              <span class="verified-badge">★</span>
+            </div>
+            <p class="profile-status">Подписано, так с плеч долой!</p>
+            <div class="profile-meta-line">
+              <span>📍 Москва</span>
+              <span>🏛️ Управляющий в казённом месте</span>
+              <button class="link-btn" id="toggleDetailsBtn">Подробнее ▾</button>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="openChatBtn">Написать</button>
+          </div>
+        </div>
+        <div class="profile-details hidden" id="profileDetails">
+          <div class="details-grid">
+            <div class="detail-row"><span>Семья:</span> <strong>Вдовец, дочь Софья Павловна</strong></div>
+            <div class="detail-row"><span>Кумир:</span> <strong>Покойный дядя Максим Петрович (служил при Екатерине)</strong></div>
+            <div class="detail-row"><span>Отношение к книгам:</span> <strong>«Уж коли зло пресечь: забрать все книги бы да сжечь!»</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <div class="wall-column" id="postsContainer">
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-famusov">ПФ</div>
+              <div>
+                <div class="post-author">Павел Афанасьевич Фамусов</div>
+                <div class="post-date">сегодня в 11:15</div>
+              </div>
+            </div>
+            <div class="post-text">
+              Быть бы нам в покое да по старинке жить! Приехал Сергей Сергеич Скалозуб — вот истинно солидный человек: и золотой мешок, и метит в генералы! Завидный жених для Софьюшки.
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="14">❤ <span class="count">14</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list"></div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-famusov">ПФ</div>
+              <div>
+                <div class="post-author">Павел Афанасьевич Фамусов</div>
+                <div class="post-date">вчера в 16:40</div>
+              </div>
+            </div>
+            <div class="post-text">
+              В четверг обедаем у нас, в субботу — званый вечер, а там и к тётушке в деревню! Дел невпроворот: иной раз так устанешь, что и бумаги подписывать некогда — подписано, так с плеч долой!
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="9">❤ <span class="count">9</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list"></div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <section class="card side-card">
+            <h2 class="side-title">Связи и круг</h2>
+            <ul class="groups-list">
+              <li><div class="group-icon">🏛️</div><div><div class="group-name">Английский клуб</div><div class="group-sub">Москва, дворянское собрание</div></div></li>
+              <li><div class="group-icon">📜</div><div><div class="group-name">Канцелярия</div><div class="group-sub">Родня на тёплых местах</div></div></li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Сообщения: Павел Фамусов</strong>
+        <button class="close-modal" id="closeChatBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg incoming">Милости просим, Сергей Сергеич! Чем обязан?</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Написать Фамусову..." />
+        <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
+      </div>
+    </div>
+  </div>
+  <script src="profile.js"></script>
+</body>
+</html>

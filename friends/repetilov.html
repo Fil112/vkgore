@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Репетилов | ВКонтакте</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body data-replies='["Шумим, братец, шумим!","Поехали к князь-Григорию! Там человек сорок, шампанское на убой!","Секретнейший союз! Сам не пойму о чём, но ужасно умно!","Скалозуб, душа моя, ну зачем тебе этот фрунт?"]'>
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="../index.html" class="vk-logo">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <div class="vk-avatar-mini">СС</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="vk-layout">
+    <aside class="vk-sidebar">
+      <nav class="vk-nav">
+        <a href="../index.html" class="vk-nav-item">🏠 Моя страница</a>
+        <a href="../index.html#wall" class="vk-nav-item">📰 Новости <span class="badge">1813</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер</a>
+        <a href="../index.html#friends-tab" class="vk-nav-item active">👥 Друзья <span class="badge">6</span></a>
+      </nav>
+    </aside>
+
+    <main class="vk-main view-animate">
+      <div class="mini-back-bar">
+        <a href="../index.html#friends-tab" class="btn btn-secondary btn-sm">← К списку друзей</a>
+        <a href="../index.html" class="link-btn">На страницу Скалозуба</a>
+      </div>
+
+      <section class="card profile-header-card">
+        <div class="profile-cover" style="background: linear-gradient(135deg, #ca6702 0%, #ee9b00 100%);">
+          <div class="profile-cover-caption">Четверг — день секретнейших собраний</div>
+        </div>
+        <div class="profile-header-body">
+          <div class="profile-avatar-wrap">
+            <div class="mini-avatar-circle av-repetilov">Р</div>
+          </div>
+          <div class="profile-info-top">
+            <div class="profile-name-row">
+              <h1>Репетилов</h1>
+            </div>
+            <p class="profile-status">Шумим, братец, шумим! 🥂</p>
+            <div class="profile-meta-line">
+              <span>📍 Английский клуб</span>
+              <span>🕒 Был 2 часа назад</span>
+              <button class="link-btn" id="toggleDetailsBtn">Подробнее ▾</button>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="openChatBtn">Написать</button>
+          </div>
+        </div>
+        <div class="profile-details hidden" id="profileDetails">
+          <div class="details-grid">
+            <div class="detail-row"><span>Кружок:</span> <strong>Собрания у князь-Григория по четвергам</strong></div>
+            <div class="detail-row"><span>Знакомые гении:</span> <strong>Левон и Боринька, Воркулов Евдоким, Ипполит Удушьев</strong></div>
+            <div class="detail-row"><span>Характер:</span> <strong>Вру без умыслу, пустой малый, зато душа нараспашку!</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <div class="wall-column" id="postsContainer">
+          <article class="card post-card">
+            <div class="post-header">
+              <div class="post-avatar av-repetilov">Р</div>
+              <div>
+                <div class="post-author">Репетилов</div>
+                <div class="post-date">вчера в 22:10</div>
+              </div>
+            </div>
+            <div class="post-text">
+              В Английском клубе нынче жарко! Братцы, какие речи толкаем о государстве, о науках! Только тсс — у нас секретнейший союз. Сергей Сергеич, поехали с нами, не сиди бирюком!
+            </div>
+            <div class="post-actions">
+              <button class="action-btn like-btn" data-count="7">❤ <span class="count">7</span></button>
+              <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+            </div>
+            <div class="comments-list">
+              <div class="comment">
+                <div class="comment-avatar av-skalozub">СС</div>
+                <div class="comment-body">
+                  <span class="comment-author">Сергей Сергеевич Скалозуб</span>
+                  Избавь. Учёностью меня не обморочишь!
+                  <div class="comment-date">вчера в 22:15</div>
+                </div>
+              </div>
+            </div>
+            <div class="add-comment-row">
+              <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+              <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <section class="card side-card">
+            <h2 class="side-title">Сообщества</h2>
+            <ul class="groups-list">
+              <li><div class="group-icon">🍾</div><div><div class="group-name">Клуб у князь-Григория</div><div class="group-sub">Шампанское и дебаты</div></div></li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Сообщения: Репетилов</strong>
+        <button class="close-modal" id="closeChatBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg incoming">А, душа моя! Куда пропал? Поехали в клуб!</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Написать Репетилову..." />
+        <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
+      </div>
+    </div>
+  </div>
+  <script src="profile.js"></script>
+</body>
+</html>
