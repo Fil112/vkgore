@@ -5,16 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Сергей Скалозуб | ВКонтакте</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232688eb'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='28' text-anchor='middle' fill='white'%3EВК%3C/text%3E%3C/svg%3E" />
 
-  <!-- Open Graph превью для Telegram / ВК -->
   <meta property="og:type" content="profile" />
   <meta property="og:url" content="https://vk.xkeylomt.space/" />
   <meta property="og:title" content="Сергей Сергеевич Скалозуб | ВКонтакте" />
   <meta property="og:description" content="Полковник 45-го егерского полка. «Мне только бы досталось в генералы!» — интерактивная страница по комедии А. С. Грибоедова «Горе от ума»." />
   <meta property="og:image" content="https://vk.xkeylomt.space/avatars/skalozub.jpg" />
   <meta name="theme-color" content="#2688eb" />
+
+  <!-- Мгновенная проверка темы и авторизации до отрисовки (без мигания) -->
+  <script>
+    try {
+      if (localStorage.getItem("vk_theme_v1") === "dark") {
+        document.documentElement.classList.add("dark-theme");
+      }
+      if (!localStorage.getItem("vk_auth_role_v1")) {
+        window.location.replace("login.html");
+      }
+    } catch (e) {}
+  </script>
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -30,8 +40,9 @@
       </div>
       <div class="vk-header-right">
         <button class="theme-toggle-btn" id="themeToggleBtn" title="Переключить тему">🌙</button>
-        <span class="vk-user-mini">Сергей Скалозуб</span>
+        <span class="vk-user-mini" id="headerUserName">Сергей Скалозуб</span>
         <div class="vk-avatar-mini" id="headerMiniAvatar">СС</div>
+        <a href="login.html" class="btn btn-secondary btn-sm" id="switchAuthBtn" title="Сменить режим или выйти">Выйти</a>
       </div>
     </div>
   </header>
@@ -43,8 +54,9 @@
       <nav class="vk-nav">
         <a href="#profile" class="vk-nav-item active" id="navProfile">🏠 Моя страница</a>
         <a href="#wall" class="vk-nav-item" id="navNews">📰 Новости <span class="badge">1813</span></a>
-        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер <span class="badge">4</span></a>
+        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер <span class="badge">5</span></a>
         <a href="#friends-tab" class="vk-nav-item" id="navFriends">👥 Друзья <span class="badge" id="navFriendsBadge">6</span></a>
+        <a href="#music-tab" class="vk-nav-item" id="navMusic">🎵 Музыка <span class="badge">4</span></a>
       </nav>
     </aside>
 
@@ -52,6 +64,12 @@
     <main class="vk-main">
       <!-- ==================== ВКЛАДКА 1: МОЯ СТРАНИЦА ==================== -->
       <div id="profileView">
+        <!-- Плашка режима Гостя -->
+        <div class="guest-banner hidden" id="guestBanner">
+          <span>👀 Вы вошли как <strong id="guestBannerName">Гость</strong>. Доступны лайки, комментарии, музыка и чат.</span>
+          <a href="login.html" class="link-btn">Войти как Скалозуб →</a>
+        </div>
+
         <!-- Шапка профиля -->
         <section class="card profile-header-card" id="profile">
           <div class="profile-cover">
@@ -84,9 +102,9 @@
 
               <img id="customAvatarImg" class="profile-avatar-img hidden" alt="Аватар Сергея Скалозуба" />
 
-              <label for="avatarUploadInput" class="avatar-upload-btn" title="Поставить свою аватарку">📷</label>
+              <label for="avatarUploadInput" class="avatar-upload-btn owner-only" title="Поставить свою аватарку">📷</label>
               <input type="file" id="avatarUploadInput" accept="image/*" class="hidden" />
-              <button type="button" id="resetAvatarBtn" class="avatar-reset-btn hidden" title="Вернуть стандартную аву">✕</button>
+              <button type="button" id="resetAvatarBtn" class="avatar-reset-btn hidden owner-only" title="Вернуть стандартную аву">✕</button>
 
               <span class="online-dot" title="В сети с плаца"></span>
             </div>
@@ -97,8 +115,7 @@
                 <span class="verified-badge" title="Подтверждённый полковник 45-го егерского полка">★</span>
               </div>
 
-              <!-- Кликабельный статус -->
-              <p class="profile-status" id="profileStatus" title="Нажмите, чтобы изменить статус">
+              <p class="profile-status" id="profileStatus" title="Статус">
                 Мне только бы досталось в генералы! 🎖️
               </p>
 
@@ -146,7 +163,7 @@
         <!-- Сетка: Стена + Правая колонка -->
         <div class="profile-grid">
           <div class="wall-column" id="wall">
-            <!-- Блок фотографий (4 квадрата + лайтбокс) -->
+            <!-- Блок фотографий -->
             <section class="card photos-card">
               <div class="side-title-row">
                 <h2 class="side-title">Фотографии <span class="muted">4</span></h2>
@@ -208,8 +225,8 @@
               </div>
             </section>
 
-            <!-- Новый пост -->
-            <div class="card new-post-card">
+            <!-- Новый пост (только для Скалозуба) -->
+            <div class="card new-post-card owner-only" id="newPostCard">
               <textarea id="newPostInput" rows="2" placeholder="Что нового на фрунте, Сергей Сергеич?"></textarea>
               <div class="new-post-footer">
                 <span class="hint">Сохраняется в браузере</span>
@@ -219,7 +236,6 @@
 
             <!-- Посты на стене -->
             <div id="postsContainer">
-              <!-- Пост-опрос -->
               <article class="card post-card" data-post-id="post-poll">
                 <div class="post-header">
                   <div class="post-avatar av-skalozub">СС</div>
@@ -280,7 +296,6 @@
                 </div>
               </article>
 
-              <!-- Пост 1 -->
               <article class="card post-card" data-post-id="post-1">
                 <div class="post-header">
                   <div class="post-avatar av-skalozub">СС</div>
@@ -320,7 +335,6 @@
                 </div>
               </article>
 
-              <!-- Пост 3 -->
               <article class="card post-card" data-post-id="post-3">
                 <div class="post-header">
                   <div class="post-avatar av-skalozub">СС</div>
@@ -370,43 +384,23 @@
             </div>
           </div>
 
-          <!-- Правая узкая колонка -->
+          <!-- Правая колонка -->
           <aside class="side-column">
-            <!-- Кликабельные друзья -->
             <section class="card side-card">
               <div class="side-title-row">
                 <h2 class="side-title">Друзья <span class="muted">6</span></h2>
                 <button class="link-btn" id="openFriendsFromSide">Все ▸</button>
               </div>
               <div class="friends-grid">
-                <a href="friends/famusov.html" class="friend-item">
-                  <div class="friend-av av-famusov">ПФ</div>
-                  <span>Фамусов</span>
-                </a>
-                <a href="friends/sofia.html" class="friend-item">
-                  <div class="friend-av av-sofia">СФ</div>
-                  <span>Софья</span>
-                </a>
-                <a href="friends/liza.html" class="friend-item">
-                  <div class="friend-av av-liza">Л</div>
-                  <span>Лиза</span>
-                </a>
-                <a href="friends/repetilov.html" class="friend-item">
-                  <div class="friend-av av-repetilov">Р</div>
-                  <span>Репетилов</span>
-                </a>
-                <a href="friends/khlestova.html" class="friend-item">
-                  <div class="friend-av av-khlestova">АХ</div>
-                  <span>Хлёстова</span>
-                </a>
-                <a href="friends/chatsky.html" class="friend-item">
-                  <div class="friend-av av-chatsky">АЧ</div>
-                  <span>Чацкий</span>
-                </a>
+                <a href="friends/famusov.html" class="friend-item"><div class="friend-av av-famusov">ПФ</div><span>Фамусов</span></a>
+                <a href="friends/sofia.html" class="friend-item"><div class="friend-av av-sofia">СФ</div><span>Софья</span></a>
+                <a href="friends/liza.html" class="friend-item"><div class="friend-av av-liza">Л</div><span>Лиза</span></a>
+                <a href="friends/repetilov.html" class="friend-item"><div class="friend-av av-repetilov">Р</div><span>Репетилов</span></a>
+                <a href="friends/khlestova.html" class="friend-item"><div class="friend-av av-khlestova">АХ</div><span>Хлёстова</span></a>
+                <a href="friends/chatsky.html" class="friend-item"><div class="friend-av av-chatsky">АЧ</div><span>Чацкий</span></a>
               </div>
             </section>
 
-            <!-- Подарки -->
             <section class="card side-card">
               <h2 class="side-title">Подарки <span class="muted">3</span></h2>
               <div class="gifts-grid">
@@ -425,76 +419,12 @@
               </div>
             </section>
 
-            <!-- Подписки -->
-            <section class="card side-card">
-              <h2 class="side-title">Подписки <span class="muted">4</span></h2>
-              <ul class="groups-list">
-                <li>
-                  <div class="group-icon">⚔️</div>
-                  <div>
-                    <div class="group-name">Подслушано в армии</div>
-                    <div class="group-sub">Фрунт, ряды, учения</div>
-                  </div>
-                </li>
-                <li>
-                  <div class="group-icon">💍</div>
-                  <div>
-                    <div class="group-name">Завидные женихи Москвы</div>
-                    <div class="group-sub">И золотой мешок</div>
-                  </div>
-                </li>
-                <li>
-                  <div class="group-icon">🧥</div>
-                  <div>
-                    <div class="group-name">Мундиры и эполеты 1820</div>
-                    <div class="group-sub">Отличье в петличках</div>
-                  </div>
-                </li>
-                <li>
-                  <div class="group-icon">🥁</div>
-                  <div>
-                    <div class="group-name">Фельдфебель в Вольтеры</div>
-                    <div class="group-sub">В три шеренги построим</div>
-                  </div>
-                </li>
-              </ul>
-            </section>
-
-            <!-- Аудиозаписи (со звуком!) -->
             <section class="card side-card">
               <div class="side-title-row">
-                <h2 class="side-title">Аудиозаписи <span class="muted">3</span></h2>
-                <span class="hint">🔊 звук</span>
+                <h2 class="side-title">Аудиозаписи <span class="muted">4</span></h2>
+                <button class="link-btn" id="openMusicFromSide">Все ▸</button>
               </div>
-              <div class="audio-list">
-                <div class="audio-item" data-sound="march">
-                  <button class="play-btn" aria-label="Воспроизвести">▶</button>
-                  <div class="audio-info">
-                    <div class="audio-title">Марш 45-го егерского полка</div>
-                    <div class="audio-artist">Барабаны «Раз, два!»</div>
-                    <div class="audio-bar"><div class="audio-progress"></div></div>
-                  </div>
-                  <span class="audio-time">3:05</span>
-                </div>
-                <div class="audio-item" data-sound="mazurka">
-                  <button class="play-btn" aria-label="Воспроизвести">▶</button>
-                  <div class="audio-info">
-                    <div class="audio-title">Мазурка на балу у Фамусовых</div>
-                    <div class="audio-artist">Московский бал</div>
-                    <div class="audio-bar"><div class="audio-progress"></div></div>
-                  </div>
-                  <span class="audio-time">2:20</span>
-                </div>
-                <div class="audio-item" data-sound="steps">
-                  <button class="play-btn" aria-label="Воспроизвести">▶</button>
-                  <div class="audio-info">
-                    <div class="audio-title">Звуки шагистики на плацу</div>
-                    <div class="audio-artist">Школа Фридриха</div>
-                    <div class="audio-bar"><div class="audio-progress"></div></div>
-                  </div>
-                  <span class="audio-time">10:00</span>
-                </div>
-              </div>
+              <div class="audio-list" id="sideAudioList"></div>
             </section>
           </aside>
         </div>
@@ -509,7 +439,7 @@
               <button class="friends-tab-btn" data-filter="online">В сети <span class="tab-count" id="countOnline">4</span></button>
               <button class="friends-tab-btn" data-filter="blacklist">Чёрный список <span class="tab-count" id="countBlacklist">1</span></button>
             </div>
-            <button class="btn btn-secondary btn-sm" id="backToProfileBtn">← На страницу</button>
+            <button class="btn btn-secondary btn-sm back-to-profile-btn">← На страницу</button>
           </div>
           <div class="friends-filter-bar">
             <input type="text" id="friendsFilterInput" placeholder="Найти по имени или цитате..." />
@@ -526,7 +456,7 @@
             </div>
             <div class="friend-page-actions">
               <a href="friends/famusov.html" class="btn btn-secondary btn-sm">Открыть</a>
-              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn owner-only">В ЧС</button>
             </div>
           </div>
 
@@ -539,7 +469,7 @@
             </div>
             <div class="friend-page-actions">
               <a href="friends/sofia.html" class="btn btn-secondary btn-sm">Открыть</a>
-              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn owner-only">В ЧС</button>
             </div>
           </div>
 
@@ -552,7 +482,7 @@
             </div>
             <div class="friend-page-actions">
               <a href="friends/liza.html" class="btn btn-secondary btn-sm">Открыть</a>
-              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn owner-only">В ЧС</button>
             </div>
           </div>
 
@@ -565,7 +495,7 @@
             </div>
             <div class="friend-page-actions">
               <a href="friends/repetilov.html" class="btn btn-secondary btn-sm">Открыть</a>
-              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn owner-only">В ЧС</button>
             </div>
           </div>
 
@@ -578,7 +508,7 @@
             </div>
             <div class="friend-page-actions">
               <a href="friends/khlestova.html" class="btn btn-secondary btn-sm">Открыть</a>
-              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">В ЧС</button>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn owner-only">В ЧС</button>
             </div>
           </div>
 
@@ -591,15 +521,34 @@
             </div>
             <div class="friend-page-actions">
               <a href="friends/chatsky.html" class="btn btn-secondary btn-sm">Открыть</a>
-              <button class="btn btn-danger-soft btn-sm toggle-cs-btn">Убрать из ЧС</button>
+              <button class="btn btn-danger-soft btn-sm toggle-cs-btn owner-only">Убрать из ЧС</button>
             </div>
           </div>
         </div>
       </section>
+
+      <!-- ==================== ВКЛАДКА 3: МУЗЫКА ==================== -->
+      <section id="musicView" class="hidden">
+        <div class="card music-header-card">
+          <div class="friends-tabs-row">
+            <div>
+              <strong>🎵 Музыка 45-го егерского полка и балов</strong>
+              <div class="hint" id="musicSourceHint">Играет встроенный синтезатор (или MP3 из папки audio/)</div>
+            </div>
+            <button class="btn btn-secondary btn-sm back-to-profile-btn">← На страницу</button>
+          </div>
+          <div class="music-controls-bar">
+            <span class="hint">Громкость:</span>
+            <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.6" />
+          </div>
+        </div>
+
+        <div class="card music-list-card" id="fullMusicList"></div>
+      </section>
     </main>
   </div>
 
-  <!-- Модальное окно Мессенджера (список диалогов + Gemini AI) -->
+  <!-- Мессенджер -->
   <div class="modal-overlay hidden" id="chatModal">
     <div class="modal-card messenger-modal">
       <div class="modal-header">
@@ -613,12 +562,9 @@
         </div>
       </div>
 
-      <!-- Панель настройки Gemini ключа (хранится только в браузере!) -->
       <div class="gemini-panel hidden" id="geminiSettingsPanel">
         <div class="gemini-panel-title">Подключение Gemini (gemini-3.8-flash)</div>
-        <p class="hint">
-          Ключ сохраняется только в вашем браузере (в <code>localStorage</code>) и не попадает в код на GitHub.
-        </p>
+        <p class="hint">Ключ сохраняется только в вашем браузере (в <code>localStorage</code>) и работает на всех страницах сайта.</p>
         <div class="gemini-input-row">
           <input type="password" id="geminiKeyInput" placeholder="Вставьте Gemini API Key (AIza...)" />
           <button class="btn btn-primary btn-sm" id="saveGeminiKeyBtn">Сохранить</button>
@@ -627,7 +573,6 @@
       </div>
 
       <div class="messenger-body">
-        <!-- Левый список диалогов -->
         <div class="dialog-list" id="dialogList">
           <button class="dialog-item active" data-peer="skalozub">
             <div class="dialog-av av-skalozub">СС</div>
@@ -666,7 +611,6 @@
           </button>
         </div>
 
-        <!-- Правая часть: текущий чат -->
         <div class="chat-pane">
           <div class="chat-peer-bar">
             <strong id="chatPeerName">Сергей Скалозуб</strong>
@@ -676,7 +620,7 @@
           <div class="chat-messages" id="chatMessages"></div>
 
           <div class="chat-blocked-notice hidden" id="chatBlockedNotice">
-            🚫 Вы добавили этого пользователя в чёрный список. Уберите его из ЧС во вкладке «Друзья», чтобы написать.
+            🚫 Пользователь в чёрном списке. Уберите его из ЧС во вкладке «Друзья», чтобы написать.
           </div>
 
           <div class="chat-input-row" id="chatInputRow">
@@ -688,7 +632,7 @@
     </div>
   </div>
 
-  <!-- Лайтбокс для фотографий -->
+  <!-- Лайтбокс фото -->
   <div class="modal-overlay hidden" id="photoLightbox">
     <div class="lightbox-card">
       <button class="lightbox-close" id="lightboxClose">✕</button>
@@ -702,7 +646,7 @@
   </div>
 
   <footer class="vk-footer">
-    Проект по комедии А. С. Грибоедова «Горе от ума». Авторы: Исаков Филипп, Баев Александр. <span>Сайт создан при поддержки MT Studio</span>
+    Проект по комедии А. С. Грибоедова «Горе от ума» • <span>vk.xkeylomt.space</span>
   </footer>
 
   <script src="script.js"></script>
