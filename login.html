@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход | ВКонтакте — Горе от ума</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232688eb'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='28' text-anchor='middle' fill='white'%3EВК%3C/text%3E%3C/svg%3E" />
+  <script>
+    try {
+      if (localStorage.getItem("vk_theme_v1") === "dark") {
+        document.documentElement.classList.add("dark-theme");
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="vk-header">
+    <div class="vk-header-inner">
+      <div class="vk-header-left">
+        <a href="index.html" class="vk-logo">
+          <span class="vk-logo-badge">ВК</span>
+          <span class="vk-logo-text">ВКонтакте</span>
+        </a>
+      </div>
+      <div class="vk-header-right">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Переключить тему">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-intro">
+      <h1>ВКонтакте — 45-й егерский полк</h1>
+      <p>Выберите режим входа на страницу Сергея Сергеевича Скалозуба по комедии А. С. Грибоедова «Горе от ума».</p>
+    </div>
+
+    <div class="auth-grid">
+      <!-- Карточка 1: Войти как Скалозуб -->
+      <section class="card auth-card">
+        <div class="auth-card-head">
+          <div class="auth-av av-skalozub">СС</div>
+          <div>
+            <h2>Сергей Скалозуб</h2>
+            <span class="hint">Режим владельца страницы</span>
+          </div>
+        </div>
+
+        <ul class="auth-perks">
+          <li>✓ Публикация постов на стену</li>
+          <li>✓ Смена аватарки и статуса</li>
+          <li>✓ Управление чёрным списком</li>
+          <li>✓ Ответы в чатах от имени полковника</li>
+        </ul>
+
+        <form id="skalozubLoginForm" class="auth-form">
+          <label class="auth-label">
+            Логин
+            <input type="text" id="loginUsername" value="skalozub" readonly />
+          </label>
+          <label class="auth-label">
+            Пароль <span class="hint">(подсказка: 1813)</span>
+            <input type="password" id="loginPassword" placeholder="Введите 1813" />
+          </label>
+          <div class="auth-error hidden" id="loginError">Неверный пароль! Подсказка: 1813</div>
+          <button type="submit" class="btn btn-primary">Войти как Скалозуб</button>
+          <button type="button" class="btn btn-secondary" id="quickSkalozubBtn">Быстрый вход без пароля</button>
+        </form>
+      </section>
+
+      <!-- Карточка 2: Войти как Гость -->
+      <section class="card auth-card">
+        <div class="auth-card-head">
+          <div class="auth-av av-sofia">Г</div>
+          <div>
+            <h2>Войти как Гость</h2>
+            <span class="hint">Режим читателя и собеседника</span>
+          </div>
+        </div>
+
+        <ul class="auth-perks">
+          <li>✓ Просмотр страницы и мини-профилей друзей</li>
+          <li>✓ Лайки, опрос на стене и музыка полка</li>
+          <li>✓ Комментарии от вашего имени</li>
+          <li>✓ Переписка с героями (включая Gemini AI)</li>
+        </ul>
+
+        <form id="guestLoginForm" class="auth-form">
+          <label class="auth-label">
+            Ваше имя
+            <input type="text" id="guestNameInput" placeholder="Например: Гость или Александр" maxlength="30" />
+          </label>
+          <button type="submit" class="btn btn-primary">Продолжить как Гость</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const themeBtn = document.getElementById("themeToggleBtn");
+      function syncThemeBtn() {
+        themeBtn.textContent = document.documentElement.classList.contains("dark-theme") ? "☀️" : "🌙";
+      }
+      syncThemeBtn();
+
+      themeBtn.addEventListener("click", () => {
+        document.documentElement.classList.add("theme-animating");
+        const isDark = document.documentElement.classList.toggle("dark-theme");
+        syncThemeBtn();
+        try { localStorage.setItem("vk_theme_v1", isDark ? "dark" : "light"); } catch (e) {}
+        setTimeout(() => document.documentElement.classList.remove("theme-animating"), 250);
+      });
+
+      // Проверка базовой аватарки Скалозуба
+      const img = new Image();
+      img.onload = () => {
+        const av = document.querySelector(".auth-av.av-skalozub");
+        av.style.backgroundImage = "url(avatars/skalozub.jpg)";
+        av.classList.add("has-photo");
+      };
+      img.src = "avatars/skalozub.jpg";
+
+      function loginAsSkalozub() {
+        try { localStorage.setItem("vk_auth_role_v1", "skalozub"); } catch (e) {}
+        window.location.href = "index.html";
+      }
+
+      document.getElementById("skalozubLoginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const pass = document.getElementById("loginPassword").value.trim().toLowerCase();
+        if (pass === "1813" || pass === "раздва" || pass === "razdva") {
+          loginAsSkalozub();
+        } else {
+          document.getElementById("loginError").classList.remove("hidden");
+        }
+      });
+
+      document.getElementById("quickSkalozubBtn").addEventListener("click", loginAsSkalozub);
+
+      document.getElementById("guestLoginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("guestNameInput").value.trim() || "Гость";
+        try {
+          localStorage.setItem("vk_auth_role_v1", "guest");
+          localStorage.setItem("vk_guest_name_v1", name);
+        } catch (err) {}
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</body>
+</html>
