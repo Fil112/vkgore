@@ -4,336 +4,730 @@ document.addEventListener("DOMContentLoaded", () => {
     GUEST_NAME: "vk_guest_name_v1",
     AVATAR: "skalozub_custom_avatar_v1",
     THEME: "vk_theme_v1",
-    GEMINI_KEY: "vk_gemini_api_key_v1"
+    STATUS: "vk_status_v1",
+    LIKES: "vk_likes_v1",
+    COMMENTS: "vk_comments_v1",
+    POSTS: "vk_custom_posts_v1",
+    POLL: "vk_poll_v1",
+    BLACKLIST: "vk_blacklist_v1"
   };
-
-  const GEMINI_PROXY_URL = "";
-  const GEMINI_MODEL = "gemini-3.8-flash";
 
   const AVATAR_FILES = {
-    skalozub: "../avatars/skalozub.jpg",
-    famusov: "../avatars/famusov.jpg",
-    sofia: "../avatars/sofia.jpg",
-    liza: "../avatars/liza.jpg",
-    repetilov: "../avatars/repetilov.jpg",
-    khlestova: "../avatars/khlestova.jpg",
-    chatsky: "../avatars/chatsky.jpg"
+    skalozub: "avatars/skalozub.jpg",
+    famusov: "avatars/famusov.jpg",
+    sofia: "avatars/sofia.jpg",
+    liza: "avatars/liza.jpg",
+    repetilov: "avatars/repetilov.jpg",
+    khlestova: "avatars/khlestova.jpg",
+    chatsky: "avatars/chatsky.jpg"
   };
 
-  const PERSONA_PROMPTS = {
-    "famusov.html": "Ты — Павел Афанасьевич Фамусов из «Горя от ума» Грибоедова. Важный московский барин, ценишь чины, связи и старые порядки, боишься мнения княгини Марьи Алексевны и хочешь сжечь все книги. Отвечай живо в 1-3 предложениях.",
-    "sofia.html": "Ты — Софья Павловна Фамусова из «Горя от ума». Романтичная, начитанная, любишь французские романы и Молчалина, устала от разговоров о полковниках и учениях. Отвечай в 1-3 предложениях.",
-    "liza.html": "Ты — Лизанька, смышлёная горничная в доме Фамусовых из «Горя от ума». Говоришь живо, с лукавством, устала переводить часы и прикрывать барышню. Отвечай в 1-3 предложениях.",
-    "repetilov.html": "Ты — Репетилов из «Горя от ума». Болтливый, восторженный, зовёшь всех в Английский клуб и на тайные собрания по четвергам к князь-Григорию. Отвечай эмоционально в 1-3 предложениях.",
-    "khlestova.html": "Ты — Анфиса Ниловна Хлёстова, 65-летняя свояченица Фамусова. Строгая, прямолинейная, приехала с Покровки со своей собачкой моськой, ворчишь на молодёжь и Чацкого. Отвечай в 1-3 предложениях.",
-    "chatsky.html": "Ты — Александр Андреевич Чацкий из «Горя от ума». Остроумный, язвительный свободолюбец («служить бы рад, прислуживаться тошно»), критикуешь чинопочитание, мундиры и косность общества. Отвечай ярко в 1-3 предложениях."
-  };
-
-  // Режим профиля (Скалозуб / Гость)
+  // ==================== 1. РЕЖИМ ПРОФИЛЯ (СКАЛОЗУБ / ГОСТЬ) ====================
   let authRole = "guest";
   let guestName = "Гость";
   try {
     authRole = localStorage.getItem(KEYS.AUTH_ROLE) || "guest";
     guestName = localStorage.getItem(KEYS.GUEST_NAME) || "Гость";
   } catch (e) {}
+
   const isOwner = authRole === "skalozub";
+  const headerUserName = document.getElementById("headerUserName");
+  const headerMiniAvatar = document.getElementById("headerMiniAvatar");
+  const guestBanner = document.getElementById("guestBanner");
+  const profileActions = document.getElementById("profileActions");
 
-  const headerRight = document.querySelector(".vk-header-right");
-  const headerName = document.querySelector(".vk-user-mini");
-  const headerAv = document.querySelector(".vk-avatar-mini");
-
-  if (headerName && headerAv) {
-    if (isOwner) {
-      headerName.textContent = "Сергей Скалозуб";
-      headerAv.textContent = "СС";
-    } else {
-      headerName.textContent = guestName;
-      headerAv.textContent = guestName.slice(0, 2).toUpperCase();
-      headerAv.style.backgroundColor = "#3a86ff";
-      headerAv.style.color = "#fff";
-    }
+  if (isOwner) {
+    headerUserName.textContent = "Сергей Скалозуб";
+    headerMiniAvatar.textContent = "СС";
+    document.getElementById("switchAuthBtn").textContent = "Выйти";
+    // Скалозуб не может писать сам себе и добавлять сам себя в друзья
+    profileActions.classList.add("hidden");
+  } else {
+    headerUserName.textContent = guestName;
+    headerMiniAvatar.textContent = guestName.slice(0, 2).toUpperCase();
+    headerMiniAvatar.style.backgroundColor = "#3a86ff";
+    headerMiniAvatar.style.color = "#fff";
+    guestBanner.classList.remove("hidden");
+    document.getElementById("guestBannerName").textContent = guestName;
+    document.getElementById("switchAuthBtn").textContent = "Войти";
+    document.querySelectorAll(".owner-only").forEach((el) => el.classList.add("hidden"));
   }
 
-  if (headerRight) {
-    if (!document.getElementById("themeToggleBtn")) {
-      const tBtn = document.createElement("button");
-      tBtn.id = "themeToggleBtn";
-      tBtn.className = "theme-toggle-btn";
-      tBtn.title = "Переключить тему";
-      tBtn.textContent = document.documentElement.classList.contains("dark-theme") ? "☀️" : "🌙";
-      tBtn.addEventListener("click", () => {
-        document.documentElement.classList.add("theme-animating");
-        const isDark = document.documentElement.classList.toggle("dark-theme");
-        tBtn.textContent = isDark ? "☀️" : "🌙";
-        try { localStorage.setItem(KEYS.THEME, isDark ? "dark" : "light"); } catch (e) {}
-        setTimeout(() => document.documentElement.classList.remove("theme-animating"), 250);
-      });
-      headerRight.prepend(tBtn);
-    }
+  // ==================== 2. ПЛАВНАЯ ТЁМНАЯ ТЕМА ====================
+  const themeToggleBtn = document.getElementById("themeToggleBtn");
 
-    if (!document.getElementById("switchAuthBtn")) {
-      const authLink = document.createElement("a");
-      authLink.id = "switchAuthBtn";
-      authLink.href = "../login.html";
-      authLink.className = "btn btn-secondary btn-sm";
-      authLink.textContent = isOwner ? "Выйти" : "Войти";
-      headerRight.appendChild(authLink);
-    }
+  function syncThemeIcon() {
+    themeToggleBtn.textContent = document.documentElement.classList.contains("dark-theme") ? "☀️" : "🌙";
   }
+  syncThemeIcon();
 
-  // Подгрузка аватарок из ../avatars/
+  themeToggleBtn.addEventListener("click", () => {
+    document.documentElement.classList.add("theme-animating");
+    const isDark = document.documentElement.classList.toggle("dark-theme");
+    syncThemeIcon();
+    try { localStorage.setItem(KEYS.THEME, isDark ? "dark" : "light"); } catch (e) {}
+    setTimeout(() => document.documentElement.classList.remove("theme-animating"), 250);
+  });
+
+  // ==================== 3. АВАТАРКИ ====================
+  const avatarUploadInput = document.getElementById("avatarUploadInput");
+  const defaultAvatarSvg = document.getElementById("defaultAvatarSvg");
+  const customAvatarImg = document.getElementById("customAvatarImg");
+  const resetAvatarBtn = document.getElementById("resetAvatarBtn");
+
   let baseSkalozubUrl = null;
   let localSkalozubUrl = null;
 
-  function applyPhoto(selector, url) {
+  function getActiveSkalozubUrl() {
+    return localSkalozubUrl || baseSkalozubUrl;
+  }
+
+  function applyAvatarToElements(selector, url) {
     document.querySelectorAll(selector).forEach((el) => {
-      el.style.backgroundImage = `url(${url})`;
-      el.classList.add("has-photo");
+      if (url) {
+        el.style.backgroundImage = `url(${url})`;
+        el.classList.add("has-photo");
+      } else {
+        el.style.backgroundImage = "";
+        el.classList.remove("has-photo");
+      }
     });
+  }
+
+  function renderSkalozubAvatar(url, isLocalOverride = false) {
+    if (url) {
+      customAvatarImg.src = url;
+      customAvatarImg.classList.remove("hidden");
+      defaultAvatarSvg.classList.add("hidden");
+      if (isOwner) {
+        resetAvatarBtn.classList.toggle("hidden", !isLocalOverride);
+        headerMiniAvatar.style.backgroundImage = `url(${url})`;
+        headerMiniAvatar.classList.add("has-photo");
+      }
+      applyAvatarToElements(".av-skalozub", url);
+    } else {
+      customAvatarImg.removeAttribute("src");
+      customAvatarImg.classList.add("hidden");
+      defaultAvatarSvg.classList.remove("hidden");
+      resetAvatarBtn.classList.add("hidden");
+      if (isOwner) {
+        headerMiniAvatar.style.backgroundImage = "";
+        headerMiniAvatar.classList.remove("has-photo");
+      }
+      applyAvatarToElements(".av-skalozub", null);
+    }
   }
 
   try {
-    const saved = localStorage.getItem(KEYS.AVATAR);
-    if (saved) {
-      localSkalozubUrl = saved;
-      applyPhoto(".av-skalozub", saved);
-      if (isOwner) applyPhoto(".vk-avatar-mini", saved);
+    const savedAvatar = localStorage.getItem(KEYS.AVATAR);
+    if (savedAvatar) {
+      localSkalozubUrl = savedAvatar;
+      renderSkalozubAvatar(savedAvatar, true);
     }
-  } catch (err) {}
+  } catch (e) {}
 
   Object.entries(AVATAR_FILES).forEach(([key, src]) => {
-    const img = new Image();
-    img.onload = () => {
+    const testImg = new Image();
+    testImg.onload = () => {
       if (key === "skalozub") {
         baseSkalozubUrl = src;
-        if (!localSkalozubUrl) {
-          applyPhoto(".av-skalozub", src);
-          if (isOwner) applyPhoto(".vk-avatar-mini", src);
-        }
+        if (!localSkalozubUrl) renderSkalozubAvatar(src, false);
       } else {
-        applyPhoto(`.av-${key}`, src);
+        applyAvatarToElements(`.av-${key}`, src);
       }
     };
-    img.src = src;
+    testImg.src = src;
   });
 
-  // Подробнее
+  if (isOwner) {
+    avatarUploadInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const size = 400;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext("2d");
+          const minSide = Math.min(img.width, img.height);
+          ctx.drawImage(img, (img.width - minSide) / 2, (img.height - minSide) / 2, minSide, minSide, 0, 0, size, size);
+          const compressedUrl = canvas.toDataURL("image/jpeg", 0.85);
+          localSkalozubUrl = compressedUrl;
+          renderSkalozubAvatar(compressedUrl, true);
+          try { localStorage.setItem(KEYS.AVATAR, compressedUrl); } catch (err) {}
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+      avatarUploadInput.value = "";
+    });
+
+    resetAvatarBtn.addEventListener("click", () => {
+      localSkalozubUrl = null;
+      try { localStorage.removeItem(KEYS.AVATAR); } catch (e) {}
+      renderSkalozubAvatar(baseSkalozubUrl, false);
+    });
+  }
+
+  // ==================== 4. СТАТУС ====================
+  const profileStatus = document.getElementById("profileStatus");
+  const statusEditor = document.getElementById("statusEditor");
+  const statusSelect = document.getElementById("statusSelect");
+  const statusCustomInput = document.getElementById("statusCustomInput");
+
+  try {
+    const savedStatus = localStorage.getItem(KEYS.STATUS);
+    if (savedStatus) profileStatus.textContent = savedStatus;
+  } catch (e) {}
+
+  if (isOwner) {
+    profileStatus.title = "Нажмите, чтобы изменить статус";
+    profileStatus.addEventListener("click", () => {
+      statusEditor.classList.toggle("hidden");
+      statusCustomInput.value = "";
+    });
+    document.getElementById("cancelStatusBtn").addEventListener("click", () => statusEditor.classList.add("hidden"));
+    document.getElementById("saveStatusBtn").addEventListener("click", () => {
+      const chosen = statusCustomInput.value.trim() || statusSelect.value;
+      profileStatus.textContent = chosen;
+      statusEditor.classList.add("hidden");
+      try { localStorage.setItem(KEYS.STATUS, chosen); } catch (e) {}
+    });
+  } else {
+    profileStatus.style.cursor = "default";
+  }
+
+  // ==================== 5. ФОТОГРАФИИ И ЛАЙТБОКС ====================
+  const photoCaptions = [
+    "Москва после 1812 года: «Пожар способствовал ей много к украшенью!»",
+    "Учения 45-го егерского полка: «Раз, два! Вот и вся наука».",
+    "Бал у Фамусовых: мазурка и светские беседы.",
+    "Родной брат в деревне: «Службу оставил, книги стал читать...»"
+  ];
+  const photoThumbs = document.querySelectorAll(".photo-thumb");
+  const photoLightbox = document.getElementById("photoLightbox");
+  const lightboxImgWrap = document.getElementById("lightboxImgWrap");
+  const lightboxCaption = document.getElementById("lightboxCaption");
+  let currentPhotoIdx = 0;
+
+  function openLightbox(idx) {
+    currentPhotoIdx = (idx + photoThumbs.length) % photoThumbs.length;
+    const svgClone = photoThumbs[currentPhotoIdx].querySelector("svg").cloneNode(true);
+    lightboxImgWrap.innerHTML = "";
+    lightboxImgWrap.appendChild(svgClone);
+    lightboxCaption.textContent = photoCaptions[currentPhotoIdx];
+    photoLightbox.classList.remove("hidden");
+  }
+
+  photoThumbs.forEach((btn) => btn.addEventListener("click", () => openLightbox(parseInt(btn.dataset.index, 10))));
+  document.getElementById("lightboxPrev").addEventListener("click", () => openLightbox(currentPhotoIdx - 1));
+  document.getElementById("lightboxNext").addEventListener("click", () => openLightbox(currentPhotoIdx + 1));
+  document.getElementById("lightboxClose").addEventListener("click", () => photoLightbox.classList.add("hidden"));
+  photoLightbox.addEventListener("click", (e) => { if (e.target === photoLightbox) photoLightbox.classList.add("hidden"); });
+
+  // ==================== 6. ОПРОС НА СТЕНЕ ====================
+  const basePollCounts = [22, 16, 10];
+  let userPollVote = null;
+  try {
+    const savedVote = localStorage.getItem(KEYS.POLL);
+    if (savedVote !== null) userPollVote = parseInt(savedVote, 10);
+  } catch (e) {}
+
+  function renderPoll() {
+    const counts = [...basePollCounts];
+    if (userPollVote !== null && counts[userPollVote] !== undefined) counts[userPollVote] += 1;
+    const total = counts.reduce((a, b) => a + b, 0);
+
+    document.querySelectorAll(".poll-option").forEach((btn, idx) => {
+      const pct = Math.round((counts[idx] / total) * 100);
+      btn.classList.toggle("selected", userPollVote === idx);
+      btn.querySelector(".poll-fill").style.width = userPollVote !== null ? `${pct}%` : "0%";
+      btn.querySelector(".poll-percent").textContent = userPollVote !== null ? `${pct}%` : "";
+    });
+    document.getElementById("pollTotal").textContent = `Проголосовало: ${total} чел.`;
+  }
+
+  document.getElementById("pollBox").addEventListener("click", (e) => {
+    const opt = e.target.closest(".poll-option");
+    if (!opt) return;
+    userPollVote = parseInt(opt.dataset.option, 10);
+    try { localStorage.setItem(KEYS.POLL, String(userPollVote)); } catch (err) {}
+    renderPoll();
+  });
+  renderPoll();
+
+  // ==================== 7. ВКЛАДКИ (ПРОФИЛЬ / НОВОСТИ / ДРУЗЬЯ / МУЗЫКА) ====================
+  const profileView = document.getElementById("profileView");
+  const friendsView = document.getElementById("friendsView");
+  const musicView = document.getElementById("musicView");
+  const navItems = document.querySelectorAll(".vk-nav-item");
+  const navProfile = document.getElementById("navProfile");
+  const navNews = document.getElementById("navNews");
+  const navFriends = document.getElementById("navFriends");
+  const wallSection = document.getElementById("wall");
+
+  function setActiveNav(target) {
+    navItems.forEach((item) => item.classList.remove("active"));
+    if (target) target.classList.add("active");
+  }
+
+  function showView(view) {
+    profileView.classList.add("hidden");
+    friendsView.classList.add("hidden");
+    musicView.classList.add("hidden");
+
+    if (view === "friends") {
+      friendsView.classList.remove("hidden", "view-animate");
+      void friendsView.offsetWidth;
+      friendsView.classList.add("view-animate");
+      setActiveNav(navFriends);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (view === "music") {
+      musicView.classList.remove("hidden", "view-animate");
+      void musicView.offsetWidth;
+      musicView.classList.add("view-animate");
+      setActiveNav(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      profileView.classList.remove("hidden");
+    }
+  }
+
+  function triggerNewsAnimation() {
+    document.querySelectorAll("#postsContainer .post-card").forEach((post, index) => {
+      post.classList.remove("news-animate");
+      post.style.animationDelay = `${index * 90}ms`;
+      void post.offsetWidth;
+      post.classList.add("news-animate");
+    });
+  }
+
+  navProfile.addEventListener("click", (e) => { e.preventDefault(); showView("profile"); setActiveNav(navProfile); window.scrollTo({ top: 0, behavior: "smooth" }); });
+  document.getElementById("logoHome").addEventListener("click", (e) => { e.preventDefault(); showView("profile"); setActiveNav(navProfile); window.scrollTo({ top: 0, behavior: "smooth" }); });
+  navNews.addEventListener("click", (e) => {
+    e.preventDefault();
+    showView("profile");
+    setActiveNav(navNews);
+    wallSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    triggerNewsAnimation();
+  });
+  navFriends.addEventListener("click", (e) => { e.preventDefault(); showView("friends"); });
+  document.getElementById("openFriendsFromSide").addEventListener("click", () => showView("friends"));
+  document.getElementById("openMusicFromSide").addEventListener("click", () => showView("music"));
+  document.querySelectorAll(".back-to-profile-btn").forEach((btn) => {
+    btn.addEventListener("click", () => { showView("profile"); setActiveNav(navProfile); window.scrollTo({ top: 0, behavior: "smooth" }); });
+  });
+
+  if (window.location.hash === "#friends-tab") showView("friends");
+  else if (window.location.hash === "#music-tab") showView("music");
+  else if (window.location.hash === "#wall") { setActiveNav(navNews); triggerNewsAnimation(); }
+
+  // ==================== 8. ДРУЗЬЯ И ЧС ====================
+  const friendTabBtns = document.querySelectorAll(".friends-tab-btn");
+  const friendsFilterInput = document.getElementById("friendsFilterInput");
+  const friendPageCards = document.querySelectorAll(".friend-page-card");
+  let currentFriendFilter = "all";
+
+  let blacklistState = { chatsky: true };
+  try {
+    const savedBL = JSON.parse(localStorage.getItem(KEYS.BLACKLIST));
+    if (savedBL && typeof savedBL === "object") blacklistState = savedBL;
+  } catch (e) {}
+
+  function syncBlacklistUI() {
+    let allCount = 0, onlineCount = 0, blCount = 0;
+    friendPageCards.forEach((card) => {
+      const id = card.dataset.friendId;
+      const isOnline = card.dataset.online === "true";
+      const isBL = Boolean(blacklistState[id]);
+      card.dataset.blacklist = String(isBL);
+      card.querySelector(".cs-badge").classList.toggle("hidden", !isBL);
+      card.querySelector(".toggle-cs-btn").textContent = isBL ? "Убрать из ЧС" : "В ЧС";
+      if (isBL) blCount++;
+      else { allCount++; if (isOnline) onlineCount++; }
+    });
+    document.getElementById("countAll").textContent = allCount;
+    document.getElementById("countOnline").textContent = onlineCount;
+    document.getElementById("countBlacklist").textContent = blCount;
+    document.getElementById("navFriendsBadge").textContent = allCount + blCount;
+    applyFriendsFilter();
+  }
+
+  function applyFriendsFilter() {
+    const query = friendsFilterInput.value.trim().toLowerCase();
+    friendPageCards.forEach((card) => {
+      const isOnline = card.dataset.online === "true";
+      const isBL = card.dataset.blacklist === "true";
+      const text = card.textContent.toLowerCase();
+      let matchesTab = false;
+      if (currentFriendFilter === "all") matchesTab = !isBL;
+      if (currentFriendFilter === "online") matchesTab = isOnline && !isBL;
+      if (currentFriendFilter === "blacklist") matchesTab = isBL;
+      card.classList.toggle("hidden", !(matchesTab && (!query || text.includes(query))));
+    });
+  }
+
+  if (isOwner) {
+    document.getElementById("friendsPageList").addEventListener("click", (e) => {
+      const csBtn = e.target.closest(".toggle-cs-btn");
+      if (!csBtn) return;
+      const id = csBtn.closest(".friend-page-card").dataset.friendId;
+      blacklistState[id] = !blacklistState[id];
+      try { localStorage.setItem(KEYS.BLACKLIST, JSON.stringify(blacklistState)); } catch (err) {}
+      syncBlacklistUI();
+    });
+  }
+
+  friendTabBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      friendTabBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFriendFilter = btn.dataset.filter;
+      applyFriendsFilter();
+    });
+  });
+  friendsFilterInput.addEventListener("input", applyFriendsFilter);
+  syncBlacklistUI();
+
+  // Подробнее и кнопка в друзьях
   const toggleDetailsBtn = document.getElementById("toggleDetailsBtn");
   const profileDetails = document.getElementById("profileDetails");
-  if (toggleDetailsBtn && profileDetails) {
-    toggleDetailsBtn.addEventListener("click", () => {
-      const isHidden = profileDetails.classList.toggle("hidden");
-      toggleDetailsBtn.textContent = isHidden ? "Подробнее ▾" : "Скрыть ▴";
-    });
-  }
+  toggleDetailsBtn.addEventListener("click", () => {
+    const isHidden = profileDetails.classList.toggle("hidden");
+    toggleDetailsBtn.textContent = isHidden ? "Подробнее ▾" : "Скрыть ▴";
+  });
 
-  // Лайки и комментарии
+  const friendBtn = document.getElementById("friendBtn");
+  friendBtn.addEventListener("click", () => {
+    if (friendBtn.textContent.includes("В друзьях")) {
+      friendBtn.textContent = "Добавить в полк";
+      friendBtn.classList.replace("btn-secondary", "btn-primary");
+    } else {
+      friendBtn.textContent = "В друзьях ✓";
+      friendBtn.classList.replace("btn-primary", "btn-secondary");
+    }
+  });
+
+  // ==================== 9. СТЕНА (ЛАЙКИ / КОММЕНТЫ / ПОСТЫ) ====================
   const postsContainer = document.getElementById("postsContainer");
-  if (postsContainer) {
-    postsContainer.addEventListener("click", (e) => {
-      const likeBtn = e.target.closest(".like-btn");
-      if (likeBtn) {
-        let count = parseInt(likeBtn.dataset.count, 10);
-        const isLiked = likeBtn.classList.toggle("liked");
-        count = isLiked ? count + 1 : count - 1;
-        likeBtn.dataset.count = count;
-        likeBtn.querySelector(".count").textContent = count;
-      }
-      const focusBtn = e.target.closest(".comment-focus-btn");
-      if (focusBtn) focusBtn.closest(".post-card").querySelector(".comment-input").focus();
-      const sendBtn = e.target.closest(".send-comment-btn");
-      if (sendBtn) {
-        const card = sendBtn.closest(".post-card");
-        addComment(card, card.querySelector(".comment-input"));
-      }
-    });
+  function loadStorageObj(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; }
+  }
+  let savedLikes = loadStorageObj(KEYS.LIKES, {});
+  let savedComments = loadStorageObj(KEYS.COMMENTS, {});
+  let savedCustomPosts = loadStorageObj(KEYS.POSTS, []);
 
-    postsContainer.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && e.target.classList.contains("comment-input")) {
-        addComment(e.target.closest(".post-card"), e.target);
-      }
-    });
+  function createPostElement(postObj) {
+    const article = document.createElement("article");
+    article.className = "card post-card news-animate";
+    article.dataset.postId = postObj.id;
+    article.innerHTML = `
+      <div class="post-header">
+        <div class="post-avatar av-skalozub">СС</div>
+        <div>
+          <div class="post-author">Сергей Сергеевич Скалозуб</div>
+          <div class="post-date"></div>
+        </div>
+      </div>
+      <div class="post-text"></div>
+      <div class="post-actions">
+        <button class="action-btn like-btn" data-count="0">❤ <span class="count">0</span></button>
+        <button class="action-btn comment-focus-btn">💬 <span>Комментировать</span></button>
+      </div>
+      <div class="comments-list"></div>
+      <div class="add-comment-row">
+        <input type="text" class="comment-input" placeholder="Написать комментарий..." />
+        <button class="btn btn-secondary btn-sm send-comment-btn">Отправить</button>
+      </div>
+    `;
+    article.querySelector(".post-date").textContent = postObj.date;
+    article.querySelector(".post-text").textContent = postObj.text;
+    const activeUrl = getActiveSkalozubUrl();
+    if (activeUrl) {
+      const av = article.querySelector(".post-avatar");
+      av.style.backgroundImage = `url(${activeUrl})`;
+      av.classList.add("has-photo");
+    }
+    return article;
   }
 
-  function addComment(postCard, input) {
-    const text = input.value.trim();
-    if (!text) return;
-
-    const list = postCard.querySelector(".comments-list");
+  function appendCommentDOM(list, text, authorName, isSkalozubAuthor, dateStr) {
     const commentEl = document.createElement("div");
     commentEl.className = "comment";
-    const authorName = isOwner ? "Сергей Сергеевич Скалозуб" : guestName;
-    const initials = isOwner ? "СС" : guestName.slice(0, 2).toUpperCase();
-
+    const initials = isSkalozubAuthor ? "СС" : authorName.slice(0, 2).toUpperCase();
     commentEl.innerHTML = `
-      <div class="comment-avatar ${isOwner ? "av-skalozub" : "av-sofia"}"></div>
+      <div class="comment-avatar ${isSkalozubAuthor ? "av-skalozub" : "av-sofia"}"></div>
       <div class="comment-body">
         <span class="comment-author"></span>
         <span class="comment-text"></span>
-        <div class="comment-date">только что</div>
+        <div class="comment-date"></div>
       </div>
     `;
     const av = commentEl.querySelector(".comment-avatar");
     av.textContent = initials;
     commentEl.querySelector(".comment-author").textContent = authorName;
     commentEl.querySelector(".comment-text").textContent = text;
+    commentEl.querySelector(".comment-date").textContent = dateStr;
 
-    if (isOwner) {
-      const activeUrl = localSkalozubUrl || baseSkalozubUrl;
+    if (isSkalozubAuthor) {
+      const activeUrl = getActiveSkalozubUrl();
       if (activeUrl) {
         av.style.backgroundImage = `url(${activeUrl})`;
         av.classList.add("has-photo");
       }
     }
-
     list.appendChild(commentEl);
-    input.value = "";
   }
 
-  // Чат с персонажем + встроенная настройка Gemini
-  const chatModal = document.getElementById("chatModal");
-  const openChatBtn = document.getElementById("openChatBtn");
-  const openChatSidebar = document.getElementById("openChatSidebar");
-  const closeChatBtn = document.getElementById("closeChatBtn");
-  const sendChatBtn = document.getElementById("sendChatBtn");
-  const chatInput = document.getElementById("chatInput");
-  const chatMessages = document.getElementById("chatMessages");
+  [...savedCustomPosts].reverse().forEach((post) => postsContainer.prepend(createPostElement(post)));
 
-  let geminiApiKey = "";
-  try { geminiApiKey = localStorage.getItem(KEYS.GEMINI_KEY) || ""; } catch (e) {}
+  document.querySelectorAll(".post-card").forEach((card) => {
+    const id = card.dataset.postId;
+    if (id && savedLikes[id]) {
+      const btn = card.querySelector(".like-btn");
+      btn.dataset.count = savedLikes[id].count;
+      btn.querySelector(".count").textContent = savedLikes[id].count;
+      btn.classList.toggle("liked", savedLikes[id].liked);
+    }
+    if (id && Array.isArray(savedComments[id])) {
+      const list = card.querySelector(".comments-list");
+      savedComments[id].forEach((c) => appendCommentDOM(list, c.text, c.author || "Гость", c.isSkalozub, c.date));
+    }
+  });
 
-  // Добавляем бейдж и панель настройки Gemini прямо в модалку мини-профиля
-  const modalHeader = chatModal?.querySelector(".modal-header");
-  let statusBadge = null;
-  if (modalHeader && closeChatBtn) {
-    const controls = document.createElement("div");
-    controls.className = "messenger-header-actions";
-    controls.innerHTML = `
-      <span class="gemini-badge" id="miniGeminiBadge">Локальный бот</span>
-      <button class="btn btn-secondary btn-sm" id="miniGeminiBtn" type="button">⚙️ ИИ</button>
-    `;
-    controls.appendChild(closeChatBtn);
-    modalHeader.appendChild(controls);
-    statusBadge = controls.querySelector("#miniGeminiBadge");
+  postsContainer.addEventListener("click", (e) => {
+    const likeBtn = e.target.closest(".like-btn");
+    if (likeBtn) {
+      const id = likeBtn.closest(".post-card").dataset.postId;
+      let count = parseInt(likeBtn.dataset.count, 10);
+      const isLiked = likeBtn.classList.toggle("liked");
+      count = isLiked ? count + 1 : count - 1;
+      likeBtn.dataset.count = count;
+      likeBtn.querySelector(".count").textContent = count;
+      if (id) {
+        savedLikes[id] = { liked: isLiked, count };
+        try { localStorage.setItem(KEYS.LIKES, JSON.stringify(savedLikes)); } catch (err) {}
+      }
+    }
+    const focusBtn = e.target.closest(".comment-focus-btn");
+    if (focusBtn) focusBtn.closest(".post-card").querySelector(".comment-input").focus();
+    const sendBtn = e.target.closest(".send-comment-btn");
+    if (sendBtn) {
+      const card = sendBtn.closest(".post-card");
+      addComment(card, card.querySelector(".comment-input"));
+    }
+  });
 
-    const panel = document.createElement("div");
-    panel.className = "gemini-panel hidden";
-    panel.innerHTML = `
-      <div class="gemini-panel-title">Подключение Gemini (gemini-3.8-flash)</div>
-      <div class="gemini-input-row">
-        <input type="password" id="miniGeminiInput" placeholder="Gemini API Key (AIza...)" />
-        <button class="btn btn-primary btn-sm" id="miniSaveKey" type="button">Сохранить</button>
-      </div>
-    `;
-    modalHeader.after(panel);
+  postsContainer.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.classList.contains("comment-input")) {
+      addComment(e.target.closest(".post-card"), e.target);
+    }
+  });
 
-    const refreshBadge = () => {
-      const active = Boolean(GEMINI_PROXY_URL || geminiApiKey);
-      statusBadge.textContent = active ? "✨ Gemini AI" : "Локальный бот";
-      statusBadge.classList.toggle("active", active);
-      if (geminiApiKey) panel.querySelector("#miniGeminiInput").value = geminiApiKey;
-    };
-    refreshBadge();
-
-    controls.querySelector("#miniGeminiBtn").addEventListener("click", () => panel.classList.toggle("hidden"));
-    panel.querySelector("#miniSaveKey").addEventListener("click", () => {
-      const val = panel.querySelector("#miniGeminiInput").value.trim();
-      geminiApiKey = val;
-      try {
-        if (val) localStorage.setItem(KEYS.GEMINI_KEY, val);
-        else localStorage.removeItem(KEYS.GEMINI_KEY);
-      } catch (e) {}
-      refreshBadge();
-      panel.classList.add("hidden");
-    });
-  }
-
-  let replies = ["Рад пообщаться!"];
-  try {
-    if (document.body.dataset.replies) replies = JSON.parse(document.body.dataset.replies);
-  } catch (err) {}
-
-  const fileName = window.location.pathname.split("/").pop() || "";
-  const characterName = document.querySelector("h1")?.textContent || "Герой Грибоедова";
-  const basePrompt = PERSONA_PROMPTS[fileName] || `Ты — ${characterName} из комедии А. С. Грибоедова «Горе от ума». Отвечай в характере персонажа в 1-3 предложениях.`;
-  const history = [];
-
-  function openChat(e) {
-    if (e) e.preventDefault();
-    chatModal.classList.remove("hidden");
-    chatInput.focus();
-  }
-
-  if (openChatBtn) openChatBtn.addEventListener("click", openChat);
-  if (openChatSidebar) openChatSidebar.addEventListener("click", openChat);
-  if (closeChatBtn) closeChatBtn.addEventListener("click", () => chatModal.classList.add("hidden"));
-  if (chatModal) {
-    chatModal.addEventListener("click", (e) => {
-      if (e.target === chatModal) chatModal.classList.add("hidden");
-    });
-  }
-
-  async function sendChatMessage() {
-    const text = chatInput.value.trim();
+  function addComment(postCard, input) {
+    const text = input.value.trim();
     if (!text) return;
-
-    history.push({ role: "user", text });
-    const out = document.createElement("div");
-    out.className = "chat-msg outgoing";
-    out.textContent = text;
-    chatMessages.appendChild(out);
-    chatInput.value = "";
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    const typing = document.createElement("div");
-    typing.className = "chat-msg incoming typing";
-    typing.textContent = "печатает...";
-    chatMessages.appendChild(typing);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    let replyText = "";
-    if (GEMINI_PROXY_URL || geminiApiKey) {
-      try {
-        const endpoint = GEMINI_PROXY_URL
-          ? GEMINI_PROXY_URL
-          : `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-        const headers = { "Content-Type": "application/json" };
-        if (!GEMINI_PROXY_URL) headers["x-goog-api-key"] = geminiApiKey;
-
-        const roleNote = isOwner
-          ? " Собеседник пишет тебе от лица Сергея Сергеевича Скалозуба."
-          : ` Собеседник — гость по имени ${guestName}.`;
-
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: basePrompt + roleNote }] },
-            contents: history.slice(-8).map((m) => ({ role: m.role, parts: [{ text: m.text }] })),
-            generationConfig: { temperature: 0.9, maxOutputTokens: 240 }
-          })
-        });
-        const data = await res.json();
-        const parts = data?.candidates?.[0]?.content?.parts || [];
-        replyText = parts.filter((p) => !p.thought && p.text).map((p) => p.text).join("").trim();
-      } catch (err) {}
+    const id = postCard.dataset.postId;
+    const authorName = isOwner ? "Сергей Сергеевич Скалозуб" : guestName;
+    appendCommentDOM(postCard.querySelector(".comments-list"), text, authorName, isOwner, "только что");
+    input.value = "";
+    if (id) {
+      if (!savedComments[id]) savedComments[id] = [];
+      savedComments[id].push({ text, author: authorName, isSkalozub: isOwner, date: "сохранено" });
+      try { localStorage.setItem(KEYS.COMMENTS, JSON.stringify(savedComments)); } catch (err) {}
     }
-
-    if (!replyText) {
-      await new Promise((r) => setTimeout(r, 400));
-      replyText = replies[Math.floor(Math.random() * replies.length)];
-    }
-
-    history.push({ role: "model", text: replyText });
-    typing.classList.remove("typing");
-    typing.textContent = replyText;
-    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  if (sendChatBtn) sendChatBtn.addEventListener("click", sendChatMessage);
-  if (chatInput) {
-    chatInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendChatMessage();
+  if (isOwner) {
+    document.getElementById("publishPostBtn").addEventListener("click", () => {
+      const input = document.getElementById("newPostInput");
+      const text = input.value.trim();
+      if (!text) return;
+      const postObj = { id: `custom-${Date.now()}`, text, date: "только что" };
+      postsContainer.prepend(createPostElement(postObj));
+      savedCustomPosts.unshift(postObj);
+      try { localStorage.setItem(KEYS.POSTS, JSON.stringify(savedCustomPosts)); } catch (err) {}
+      input.value = "";
     });
   }
+
+  // ==================== 10. МУЗЫКА (MP3 ИЗ audio/ + СИНТЕЗАТОР) ====================
+  const TRACKS = [
+    { id: "march", title: "Марш 45-го егерского полка", artist: "Оркестр «Раз, два!»", time: "3:05", src: "audio/march.mp3" },
+    { id: "waltz", title: "Вальс ми-минор (Соч. А. Грибоедова)", artist: "А. С. Грибоедов", time: "2:45", src: "audio/waltz.mp3" },
+    { id: "mazurka", title: "Мазурка на балу у Фамусовых", artist: "Московский бал", time: "2:20", src: "audio/mazurka.mp3" },
+    { id: "steps", title: "Звуки шагистики на плацу", artist: "Школа Фридриха", time: "10:00", src: "audio/steps.mp3" }
+  ];
+
+  const sideAudioList = document.getElementById("sideAudioList");
+  const fullMusicList = document.getElementById("fullMusicList");
+  const musicVolume = document.getElementById("musicVolume");
+
+  function renderMusicLists() {
+    sideAudioList.innerHTML = "";
+    fullMusicList.innerHTML = "";
+    TRACKS.forEach((t) => {
+      const sideEl = document.createElement("div");
+      sideEl.className = "audio-item";
+      sideEl.dataset.trackId = t.id;
+      sideEl.innerHTML = `
+        <button class="play-btn" aria-label="Воспроизвести">▶</button>
+        <div class="audio-info">
+          <div class="audio-title">${t.title}</div>
+          <div class="audio-artist">${t.artist}</div>
+          <div class="audio-bar"><div class="audio-progress"></div></div>
+        </div>
+        <span class="audio-time">${t.time}</span>
+      `;
+      sideAudioList.appendChild(sideEl);
+
+      const fullEl = sideEl.cloneNode(true);
+      fullEl.classList.add("music-track-row");
+      fullMusicList.appendChild(fullEl);
+    });
+  }
+  renderMusicLists();
+
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) audioCtx = new Ctx();
+    }
+    if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+    return audioCtx;
+  }
+
+  function playSynthStep(trackId, step) {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const vol = parseFloat(musicVolume.value || "0.6") * 0.15;
+    const now = ctx.currentTime;
+
+    if (trackId === "waltz") {
+      const notes = [329.63, 493.88, 392.0, 369.99, 329.63, 523.25, 493.88, 440.0];
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(notes[step % notes.length], now);
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.38);
+    } else if (trackId === "mazurka") {
+      const notes = [392.0, 493.88, 587.33, 523.25, 493.88, 440.0];
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(notes[step % notes.length], now);
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.26);
+    } else {
+      const accent = step % 2 === 0;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(accent ? 140 : 95, now);
+      osc.frequency.exponentialRampToValueAtTime(40, now + 0.11);
+      gain.gain.setValueAtTime(vol * (accent ? 1.5 : 0.9), now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.13);
+    }
+  }
+
+  let currentTrackId = null;
+  let htmlAudio = new Audio();
+  let synthInterval = null;
+  let synthStep = 0;
+  let synthProgress = 0;
+
+  musicVolume.addEventListener("input", () => { htmlAudio.volume = parseFloat(musicVolume.value); });
+
+  function syncAudioUI(trackId, pct, isPlaying) {
+    document.querySelectorAll(".audio-item").forEach((el) => {
+      const match = el.dataset.trackId === trackId && isPlaying;
+      el.classList.toggle("playing", match);
+      el.querySelector(".play-btn").textContent = match ? "⏸" : "▶";
+      if (el.dataset.trackId === trackId && pct !== null) {
+        el.querySelector(".audio-progress").style.width = `${pct}%`;
+      } else if (!match && el.dataset.trackId !== trackId) {
+        el.querySelector(".audio-progress").style.width = "0%";
+      }
+    });
+  }
+
+  function stopPlayback() {
+    htmlAudio.pause();
+    clearInterval(synthInterval);
+    synthInterval = null;
+    const prev = currentTrackId;
+    currentTrackId = null;
+    syncAudioUI(prev, 0, false);
+  }
+
+  function startTrack(trackId) {
+    if (currentTrackId === trackId) { stopPlayback(); return; }
+    stopPlayback();
+    const track = TRACKS.find((t) => t.id === trackId);
+    if (!track) return;
+
+    currentTrackId = trackId;
+    syncAudioUI(trackId, 0, true);
+
+    htmlAudio.src = track.src;
+    htmlAudio.volume = parseFloat(musicVolume.value);
+    htmlAudio.play().then(() => {
+      document.getElementById("musicSourceHint").textContent = `Играет файл: ${track.src}`;
+    }).catch(() => {
+      document.getElementById("musicSourceHint").textContent = "Играет встроенный синтезатор (можно добавить MP3 в папку audio/)";
+      synthStep = 0;
+      synthProgress = 0;
+      const runStep = () => {
+        if (currentTrackId !== trackId) return;
+        synthProgress = synthProgress >= 100 ? 0 : synthProgress + 2;
+        playSynthStep(trackId, synthStep++);
+        syncAudioUI(trackId, synthProgress, true);
+      };
+      runStep();
+      synthInterval = setInterval(runStep, trackId === "waltz" ? 420 : 450);
+    });
+  }
+
+  htmlAudio.addEventListener("timeupdate", () => {
+    if (htmlAudio.duration && currentTrackId) {
+      syncAudioUI(currentTrackId, (htmlAudio.currentTime / htmlAudio.duration) * 100, true);
+    }
+  });
+
+  htmlAudio.addEventListener("ended", () => {
+    const idx = TRACKS.findIndex((t) => t.id === currentTrackId);
+    startTrack(TRACKS[(idx + 1) % TRACKS.length].id);
+  });
+
+  [sideAudioList, fullMusicList].forEach((container) => {
+    container.addEventListener("click", (e) => {
+      const playBtn = e.target.closest(".play-btn");
+      if (playBtn) {
+        startTrack(playBtn.closest(".audio-item").dataset.trackId);
+        return;
+      }
+      const bar = e.target.closest(".audio-bar");
+      if (bar && htmlAudio.duration && bar.closest(".audio-item").dataset.trackId === currentTrackId) {
+        const rect = bar.getBoundingClientRect();
+        htmlAudio.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * htmlAudio.duration;
+      }
+    });
+  });
 });
