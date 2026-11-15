@@ -49,14 +49,13 @@
 
   <!-- Основной контейнер -->
   <div class="vk-layout">
-    <!-- Левое меню -->
+    <!-- Левое меню (без Музыки, Мессенджер ведёт в messenger.html) -->
     <aside class="vk-sidebar">
       <nav class="vk-nav">
         <a href="#profile" class="vk-nav-item active" id="navProfile">🏠 Моя страница</a>
         <a href="#wall" class="vk-nav-item" id="navNews">📰 Новости <span class="badge">1813</span></a>
-        <a href="#" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер <span class="badge">5</span></a>
+        <a href="messenger.html" class="vk-nav-item" id="openChatSidebar">💬 Мессенджер <span class="badge">7</span></a>
         <a href="#friends-tab" class="vk-nav-item" id="navFriends">👥 Друзья <span class="badge" id="navFriendsBadge">6</span></a>
-        <a href="#music-tab" class="vk-nav-item" id="navMusic">🎵 Музыка <span class="badge">4</span></a>
       </nav>
     </aside>
 
@@ -66,7 +65,7 @@
       <div id="profileView">
         <!-- Плашка режима Гостя -->
         <div class="guest-banner hidden" id="guestBanner">
-          <span>👀 Вы вошли как <strong id="guestBannerName">Гость</strong>. Доступны лайки, комментарии, музыка и чат.</span>
+          <span>👀 Вы вошли как <strong id="guestBannerName">Гость</strong>. Доступны лайки, комментарии, музыка и чат со Скалозубом.</span>
           <a href="login.html" class="link-btn">Войти как Скалозуб →</a>
         </div>
 
@@ -140,8 +139,9 @@
               </div>
             </div>
 
-            <div class="profile-actions">
-              <button class="btn btn-primary" id="openChatBtn">Написать</button>
+            <!-- Видно только Гостю (Скалозуб не может писать сам себе) -->
+            <div class="profile-actions" id="profileActions">
+              <a href="messenger.html?peer=skalozub" class="btn btn-primary" id="openChatBtn">Написать</a>
               <button class="btn btn-secondary" id="friendBtn">В друзьях ✓</button>
             </div>
           </div>
@@ -527,7 +527,7 @@
         </div>
       </section>
 
-      <!-- ==================== ВКЛАДКА 3: МУЗЫКА ==================== -->
+      <!-- ==================== ВКЛАДКА 3: МУЗЫКА (по кнопке «Все ▸» справа) ==================== -->
       <section id="musicView" class="hidden">
         <div class="card music-header-card">
           <div class="friends-tabs-row">
@@ -546,90 +546,6 @@
         <div class="card music-list-card" id="fullMusicList"></div>
       </section>
     </main>
-  </div>
-
-  <!-- Мессенджер -->
-  <div class="modal-overlay hidden" id="chatModal">
-    <div class="modal-card messenger-modal">
-      <div class="modal-header">
-        <div class="messenger-header-left">
-          <strong>💬 Мессенджер</strong>
-          <span class="gemini-badge" id="geminiStatusBadge">Локальный бот</span>
-        </div>
-        <div class="messenger-header-actions">
-          <button class="btn btn-secondary btn-sm" id="geminiSettingsBtn" title="Подключить Gemini AI">⚙️ ИИ</button>
-          <button class="close-modal" id="closeChatBtn">✕</button>
-        </div>
-      </div>
-
-      <div class="gemini-panel hidden" id="geminiSettingsPanel">
-        <div class="gemini-panel-title">Подключение Gemini (gemini-3.8-flash)</div>
-        <p class="hint">Ключ сохраняется только в вашем браузере (в <code>localStorage</code>) и работает на всех страницах сайта.</p>
-        <div class="gemini-input-row">
-          <input type="password" id="geminiKeyInput" placeholder="Вставьте Gemini API Key (AIza...)" />
-          <button class="btn btn-primary btn-sm" id="saveGeminiKeyBtn">Сохранить</button>
-          <button class="btn btn-secondary btn-sm" id="clearGeminiKeyBtn">Сбросить</button>
-        </div>
-      </div>
-
-      <div class="messenger-body">
-        <div class="dialog-list" id="dialogList">
-          <button class="dialog-item active" data-peer="skalozub">
-            <div class="dialog-av av-skalozub">СС</div>
-            <div class="dialog-meta">
-              <div class="dialog-name">Сергей Скалозуб</div>
-              <div class="dialog-preview">Раз, два! Вот и вся наука.</div>
-            </div>
-          </button>
-          <button class="dialog-item" data-peer="famusov">
-            <div class="dialog-av av-famusov">ПФ</div>
-            <div class="dialog-meta">
-              <div class="dialog-name">Павел Фамусов</div>
-              <div class="dialog-preview">Заезжайте в четверг на обед!</div>
-            </div>
-          </button>
-          <button class="dialog-item" data-peer="sofia">
-            <div class="dialog-av av-sofia">СФ</div>
-            <div class="dialog-meta">
-              <div class="dialog-name">Софья Фамусова</div>
-              <div class="dialog-preview">Только не про учения...</div>
-            </div>
-          </button>
-          <button class="dialog-item" data-peer="repetilov">
-            <div class="dialog-av av-repetilov">Р</div>
-            <div class="dialog-meta">
-              <div class="dialog-name">Репетилов</div>
-              <div class="dialog-preview">Шумим, братец, поехали!</div>
-            </div>
-          </button>
-          <button class="dialog-item" data-peer="chatsky">
-            <div class="dialog-av av-chatsky">АЧ</div>
-            <div class="dialog-meta">
-              <div class="dialog-name">Александр Чацкий</div>
-              <div class="dialog-preview" id="chatskyDialogPreview">🚫 В чёрном списке</div>
-            </div>
-          </button>
-        </div>
-
-        <div class="chat-pane">
-          <div class="chat-peer-bar">
-            <strong id="chatPeerName">Сергей Скалозуб</strong>
-            <span class="hint" id="chatPeerSub">Полковник 45-го егерского</span>
-          </div>
-
-          <div class="chat-messages" id="chatMessages"></div>
-
-          <div class="chat-blocked-notice hidden" id="chatBlockedNotice">
-            🚫 Пользователь в чёрном списке. Уберите его из ЧС во вкладке «Друзья», чтобы написать.
-          </div>
-
-          <div class="chat-input-row" id="chatInputRow">
-            <input type="text" id="chatInput" placeholder="Напишите сообщение..." />
-            <button class="btn btn-primary btn-sm" id="sendChatBtn">Отправить</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Лайтбокс фото -->
