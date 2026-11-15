@@ -31,12 +31,17 @@
 
   <main class="auth-wrapper">
     <div class="auth-intro">
-      <h1>ВКонтакте — 45-й егерский полк</h1>
-      <p>Выберите режим входа на страницу Сергея Сергеевича Скалозуба по комедии А. С. Грибоедова «Горе от ума».</p>
+      <h1>Вход ВКонтакте — 45-й егерский полк</h1>
+      <p>Выберите режим профиля: владелец страницы (Сергей Скалозуб) или Гость.</p>
+    </div>
+
+    <div class="auth-current-banner hidden" id="currentRoleBanner">
+      <span>Сейчас выбран режим: <strong id="currentRoleText"></strong></span>
+      <a href="index.html" class="btn btn-secondary btn-sm">Вернуться на страницу →</a>
     </div>
 
     <div class="auth-grid">
-      <!-- Карточка 1: Войти как Скалозуб -->
+      <!-- Карточка 1: Сергей Скалозуб -->
       <section class="card auth-card">
         <div class="auth-card-head">
           <div class="auth-av av-skalozub">СС</div>
@@ -50,7 +55,7 @@
           <li>✓ Публикация постов на стену</li>
           <li>✓ Смена аватарки и статуса</li>
           <li>✓ Управление чёрным списком</li>
-          <li>✓ Ответы в чатах от имени полковника</li>
+          <li>✗ Нельзя писать самому себе в Мессенджере</li>
         </ul>
 
         <form id="skalozubLoginForm" class="auth-form">
@@ -62,27 +67,27 @@
             Пароль <span class="hint">(подсказка: 1813)</span>
             <input type="password" id="loginPassword" placeholder="Введите 1813" />
           </label>
-          <div class="auth-error hidden" id="loginError">Неверный пароль! Подсказка: 1813</div>
+          <div class="auth-error hidden" id="loginError">Неверный пароль! Введите 1813 или нажмите быстрый вход.</div>
           <button type="submit" class="btn btn-primary">Войти как Скалозуб</button>
           <button type="button" class="btn btn-secondary" id="quickSkalozubBtn">Быстрый вход без пароля</button>
         </form>
       </section>
 
-      <!-- Карточка 2: Войти как Гость -->
+      <!-- Карточка 2: Гость -->
       <section class="card auth-card">
         <div class="auth-card-head">
           <div class="auth-av av-sofia">Г</div>
           <div>
             <h2>Войти как Гость</h2>
-            <span class="hint">Режим читателя и собеседника</span>
+            <span class="hint">Режим гостя и собеседника</span>
           </div>
         </div>
 
         <ul class="auth-perks">
-          <li>✓ Просмотр страницы и мини-профилей друзей</li>
-          <li>✓ Лайки, опрос на стене и музыка полка</li>
+          <li>✓ Можно написать Сергею Скалозубу в Мессенджере</li>
+          <li>✓ Лайки, опрос на стене и музыка</li>
           <li>✓ Комментарии от вашего имени</li>
-          <li>✓ Переписка с героями (включая Gemini AI)</li>
+          <li>✓ Общение с героями (включая Gemini AI)</li>
         </ul>
 
         <form id="guestLoginForm" class="auth-form">
@@ -112,7 +117,20 @@
         setTimeout(() => document.documentElement.classList.remove("theme-animating"), 250);
       });
 
-      // Проверка базовой аватарки Скалозуба
+      // Показываем текущую сессию, если пользователь уже входил
+      try {
+        const role = localStorage.getItem("vk_auth_role_v1");
+        const gName = localStorage.getItem("vk_guest_name_v1") || "Гость";
+        if (role) {
+          const banner = document.getElementById("currentRoleBanner");
+          const text = document.getElementById("currentRoleText");
+          text.textContent = role === "skalozub" ? "Сергей Скалозуб (владелец)" : `Гость (${gName})`;
+          banner.classList.remove("hidden");
+        }
+        document.getElementById("guestNameInput").value = gName !== "Гость" ? gName : "";
+      } catch (e) {}
+
+      // Подгружаем фото Скалозуба, если оно есть в avatars/
       const img = new Image();
       img.onload = () => {
         const av = document.querySelector(".auth-av.av-skalozub");
