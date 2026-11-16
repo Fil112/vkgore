@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const GEMINI_PROXY_URL = "";
-  const GEMINI_MODEL = "gemini-4-hydrogen";
+  const GEMINI_MODEL = "gemini-3.5-flash-lite";
 
   const AVATAR_FILES = {
     skalozub: "avatars/skalozub.jpg",
